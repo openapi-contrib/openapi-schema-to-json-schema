@@ -4,6 +4,11 @@ function convert(schema, options) {
 	options = options || {};
 	options.dateToDateTime = options.dateToDateTime || false;
 	options.cloneSchema = options.cloneSchema == false ? false : true;
+	options.supportPatternProperties = options.supportPatternProperties || false;
+
+	if (typeof options.patternPropertiesHandler !== 'function') {
+		options.patternPropertiesHandler = patternPropertiesHandler;
+	}
 
 	options._structs = ['allOf', 'anyOf', 'oneOf', 'not', 'items', 'additionalProperties'];
 	options._notSupported = [
@@ -47,6 +52,10 @@ function convertSchema(schema, options) {
 	}
 
 	schema = convertTypes(schema, options);
+	if (typeof schema['x-patternProperties'] === 'object'
+			&& options.supportPatternProperties) {
+		schema = convertPatternProperties(schema, options.patternPropertiesHandler);
+	}
 
 	for (i=0; i < notSupported.length; i++) {
 		delete schema[notSupported[i]];
@@ -136,3 +145,32 @@ function convertTypes(schema, options) {
 	return schema;
 }
 
+function convertPatternProperties(schema, handler) {
+	schema.patternProperties = schema['x-patternProperties'];
+	delete schema['x-patternProperties'];
+
+	return handler(schema);
+}
+
+function patternPropertiesHandler(schema) {
+	var pattern
+		, patternsObj = schema.patternProperties
+		, additProps = schema.additionalProperties
+		, type
+	;
+
+	if (typeof additProps !== 'object') {
+		return schema;
+	}
+
+	for (pattern in patternsObj) {
+		type = patternsObj[pattern].type;
+
+		if ((type === additProps.type) && type !== 'object') {
+			delete schema.additionalProperties;
+			break;
+		}
+	}
+
+	return schema;
+}

@@ -1,0 +1,121 @@
+{
+	"allOf": [
+    {
+			"anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cats": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dogs": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "bring_cats": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string"
+                      },
+                      "sms": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "email"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "playground": {
+          "type": "object",
+          "required": [
+            "feeling",
+            "child"
+          ],
+          "properties": {
+            "feeling": {
+              "type": "string"
+            },
+            "child": {
+              "type": "object",
+              "required": [
+                "name",
+                "age"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "integer"
+                }
+              }
+            },
+            "toy": {
+              "type": "object",
+              "properties": {
+                "breaks_easily": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "color": {
+                  "type": "string",
+                  "description": "Color of the toy"
+                },
+                "type": {
+                  "type": "string",
+									"enum": ["bucket", "shovel"],
+                  "description": "Toy type"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "http://json-schema.org/draft-04/schema#"
+}
+

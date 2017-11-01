@@ -27,6 +27,7 @@ test('handling additional properties of the same type: string', function(assert)
 	expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'object',
+		additionalProperties: false,
 		patternProperties: {
 			'^[a-z]*$': {
 				type: 'string'
@@ -34,7 +35,7 @@ test('handling additional properties of the same type: string', function(assert)
 		}
 	};
 
-	assert.deepEqual(result, expected, 'additionalProperties deleted');
+	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
 test('handling additional properties of the same type: number', function(assert) {
@@ -62,6 +63,7 @@ test('handling additional properties of the same type: number', function(assert)
 	expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'object',
+		additionalProperties: false,
 		patternProperties: {
 			'^[a-z]*$': {
 				type: 'number'
@@ -69,7 +71,7 @@ test('handling additional properties of the same type: number', function(assert)
 		}
 	};
 
-	assert.deepEqual(result, expected, 'additionalProperties deleted');
+	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
 test('handling additional properties with one of patternProperty types', function(assert) {
@@ -100,6 +102,7 @@ test('handling additional properties with one of patternProperty types', functio
 	expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'object',
+		additionalProperties: false,
 		patternProperties: {
 			'^[a-z]*$': {
 				type: 'string'
@@ -110,7 +113,7 @@ test('handling additional properties with one of patternProperty types', functio
 		}
 	};
 
-	assert.deepEqual(result, expected, 'additionalProperties deleted');
+	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
 test('keeping additionalProperties with object type', function(assert) {
@@ -154,7 +157,7 @@ test('keeping additionalProperties with object type', function(assert) {
 		}
 	};
 
-	assert.deepEqual(result, expected, 'additionalProperties kept');
+	assert.deepEqual(result, expected, 'additionalProperties kept unchanged');
 });
 
 test('not supporting patternProperties', function(assert) {

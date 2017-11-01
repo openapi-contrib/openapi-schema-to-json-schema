@@ -167,7 +167,7 @@ function patternPropertiesHandler(schema) {
 		type = patternsObj[pattern].type;
 
 		if ((type === additProps.type) && type !== 'object') {
-			delete schema.additionalProperties;
+			schema.additionalProperties = false;
 			break;
 		}
 	}

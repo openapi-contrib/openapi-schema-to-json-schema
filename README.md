@@ -1,6 +1,8 @@
 # OpenAPI Schema to JSON Schema
 
-A little NodeJS package to convert OpenAPI Schema Object to JSON Schema. Currently converts from [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) to [JSON Schema Draft 4](http://json-schema.org/specification-links.html#draft-4).
+A little NodeJS package to convert OpenAPI Schema Object to JSON Schema.
+
+Currently converts from [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) to [JSON Schema Draft 4](http://json-schema.org/specification-links.html#draft-4).
 
 ## Why?
 
@@ -18,6 +20,7 @@ The purpose of this project is to fill the grap by doing the conversion between 
 * deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
 * supports deep structures with nested `allOf`s etc.
 * removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc.
+* optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
 **NOTE**: `$ref`s are not dereferenced. Use a dereferences such as [json-schema-ref-parser](https://www.npmjs.com/package/json-schema-ref-parser) prior to using this package.
 
@@ -59,31 +62,47 @@ Provide the function the schema object with possible options.
 
 ### Options
 
-The function accepts `options` object as the second argument. Currently, the following options are supported:
-* `cloneSchema` (boolean)
-  * If set to `false`, converts the provided schema in place. If `true`, clones the schema by converting it to JSON and back. The overhead of the cloning is usually negligible. Defaults to `true`.
-* `dateToDateTime` (boolean)
-  * This is `false` by default and leaves `date` type/format as is. If set to `true`, sets `type: "string"` and `format: "date-time"` if
-    * `type: "string"` AND `format: "date"` OR
-	* `type: "date"`
-  * For example
+The function accepts `options` object as the second argument.
 
-	```js
-	var schema = {
-	  type: 'date',
-	};
+#### `cloneSchema` (boolean)
 
-	var convertedSchema = toJsonSchema(schema, {dateToDateTime: true});
+If set to `false`, converts the provided schema in place. If `true`, clones the schema by converting it to JSON and back. The overhead of the cloning is usually negligible. Defaults to `true`.
 
-	console.log(convertedSchema);
-	```
+#### `dateToDateTime` (boolean)
 
-	prints 
+This is `false` by default and leaves `date` type/format as is. If set to `true`, sets `type: "string"` and `format: "date-time"` if
+  * `type: "string"` AND `format: "date"` OR
+  * `type: "date"`
+  
+For example
 
-	```js
-	{
-	  type: 'string',
-	  format: 'date-time',
-	  '$schema': 'http://json-schema.org/draft-04/schema#'
-	}
-	```
+```js
+var schema = {
+  type: 'date'
+};
+
+var convertedSchema = toJsonSchema(schema, {dateToDateTime: true});
+
+console.log(convertedSchema);
+```
+
+prints 
+
+```js
+{
+  type: 'string',
+  format: 'date-time',
+  '$schema': 'http://json-schema.org/draft-04/schema#'
+}
+```
+
+#### `supportPatternProperties` (boolean)
+ 
+If set to `true` and `x-patternProperties` property is present, change `x-patternProperties` to `patternProperty` and call `patternPropertiesHandler`. If `patternPropertiesHandler` is not defined, call the default handler. See `patternPropertiesHandler` for more information.
+
+#### `patternPropertiesHandler` (function)
+
+Provide a function to handle pattern properties. The function takes the schema where `x-patternProperties` is defined on the root level. At this point `x-patternProperties` is changed to `patternProperties`.
+
+If the handler is not provided, the default handler is used. If `additionalProperties` is set and is an object, the default handler sets it to false if the root level `type` is the same as one of the types in `patternProperties` unless `type` is `object`. This is because we might want to define `additionalProperties` in OpenAPI spec file, but want to validate against a pattern. The pattern would turn out to be useless if `additionalProperties` of the same type were allowed.
+

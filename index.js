@@ -28,22 +28,22 @@ function convert(schema, options) {
 }
 
 function convertSchema(schema, options) {
-	var arrays = options._structs
+	var structs = options._structs
 		, notSupported = options._notSupported
 		, i = 0
 		, j = 0
-		, arr = null
+		, struct = null
 	;
 
-	for (i; i < arrays.length; i++) {
-		arr = arrays[i];
+	for (i; i < structs.length; i++) {
+		struct = structs[i];
 
-		if (Array.isArray(schema[arr])) {
-			for (j; j < schema[arr].length; j++) {
-				schema[arr][j] = convertSchema(schema[arr][j], options);
+		if (Array.isArray(schema[struct])) {
+			for (j; j < schema[struct].length; j++) {
+				schema[struct][j] = convertSchema(schema[struct][j], options);
 			}
-		} else if (typeof schema[arr] === 'object') {
-			schema[arr] = convertSchema(schema[arr], options);
+		} else if (typeof schema[struct] === 'object') {
+			schema[struct] = convertSchema(schema[struct], options);
 		}
 	}
 

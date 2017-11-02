@@ -8,9 +8,7 @@
   },
   "author": "Mika Kunnas <mika.kunnas@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "json-schema-ref-parser": "^4.0.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0"

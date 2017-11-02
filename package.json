@@ -6,7 +6,8 @@
   "scripts": {
     "test": "./node_modules/.bin/tape test/**/*.js | ./node_modules/.bin/tap-spec"
   },
-  "author": "Mika Kunnas <mika.kunnas@gmail.com>",
+  "repository": "github:mikunn/openapi-schema-to-json-schema",
+  "author": "Mika Kunnas",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {

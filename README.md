@@ -22,7 +22,7 @@ The purpose of this project is to fill the grap by doing the conversion between 
 * removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc.
 * optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
-**NOTE**: `$ref`s are not dereferenced. Use a dereferences such as [json-schema-ref-parser](https://www.npmjs.com/package/json-schema-ref-parser) prior to using this package.
+**NOTE**: `$ref`s are not dereferenced. Use a dereferencer such as [json-schema-ref-parser](https://www.npmjs.com/package/json-schema-ref-parser) prior to using this package.
 
 ## Installation
 

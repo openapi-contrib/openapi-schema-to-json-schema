@@ -166,7 +166,7 @@ function patternPropertiesHandler(schema) {
 	for (pattern in patternsObj) {
 		type = patternsObj[pattern].type;
 
-		if ((type === additProps.type) && type !== 'object') {
+		if ((type === additProps.type) && type !== 'object' && type !== 'array') {
 			schema.additionalProperties = false;
 			break;
 		}

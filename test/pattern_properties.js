@@ -160,6 +160,62 @@ test('keeping additionalProperties with object type', function(assert) {
 	assert.deepEqual(result, expected, 'additionalProperties kept unchanged');
 });
 
+test('keeping additionalProperties with array type', function(assert) {
+	var schema
+		, result
+		, expected
+	;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		additionalProperties: {
+			type: 'array',
+			items: {
+				type: 'string'
+			}
+		},
+		'x-patternProperties': {
+			'^[a-z]*$': {
+				type: 'string'
+			},
+			'^[A-Z]*$': {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			}
+		}
+	};
+
+	result = convert(schema, {supportPatternProperties: true});
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		additionalProperties: {
+			type: 'array',
+			items: {
+				type: 'string'
+			}
+		},
+		patternProperties: {
+			'^[a-z]*$': {
+				type: 'string'
+			},
+			'^[A-Z]*$': {
+				type: 'array',
+				items: {
+					type: 'string'
+				}
+			}
+		}
+	};
+
+	assert.deepEqual(result, expected, 'additionalProperties kept unchanged');
+});
+
 test('not supporting patternProperties', function(assert) {
 	var schema
 		, result
@@ -277,4 +333,39 @@ test('setting custom patternProperties handler', function(assert) {
 	};
 
 	assert.deepEqual(result, expected, 'handler with custom handler');
+});
+
+test('additionalProperties not modified if set to true', function(assert) {
+	var schema
+		, result
+		, expected
+		, options
+	;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		additionalProperties: true,
+		'x-patternProperties': {
+			'^[a-z]*$': {
+				type: 'string'
+			}
+		}
+	};
+
+	result = convert(schema, {supportPatternProperties: true});
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		additionalProperties: true,
+		patternProperties: {
+			'^[a-z]*$': {
+				type: 'string'
+			}
+		}
+	};
+
+	assert.deepEqual(result, expected, 'additionalProperties not removed');
 });

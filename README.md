@@ -98,7 +98,7 @@ prints
 
 #### `supportPatternProperties` (boolean)
  
-If set to `true` and `x-patternProperties` property is present, change `x-patternProperties` to `patternProperty` and call `patternPropertiesHandler`. If `patternPropertiesHandler` is not defined, call the default handler. See `patternPropertiesHandler` for more information.
+If set to `true` and `x-patternProperties` property is present, change `x-patternProperties` to `patternProperties` and call `patternPropertiesHandler`. If `patternPropertiesHandler` is not defined, call the default handler. See `patternPropertiesHandler` for more information.
 
 #### `patternPropertiesHandler` (function)
 

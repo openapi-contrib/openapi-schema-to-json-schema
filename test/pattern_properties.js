@@ -425,7 +425,6 @@ test('setting custom patternProperties handler', function(assert) {
 	var schema
 		, result
 		, expected
-		, options
 	;
 
 	assert.plan(1);

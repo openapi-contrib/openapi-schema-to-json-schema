@@ -116,7 +116,7 @@ test('handling additional properties with one of patternProperty types', functio
 	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
-test('keeping additionalProperties with object type', function(assert) {
+test('handling additionalProperties with matching objects', function(assert) {
 	var schema
 		, result
 		, expected
@@ -127,14 +127,24 @@ test('keeping additionalProperties with object type', function(assert) {
 	schema = {
 		type: 'object',
 		additionalProperties: {
-			type: 'object'
+			type: 'object',
+			properties: {
+				test: {
+					type: 'string'
+				}
+			}
 		},
 		'x-patternProperties': {
 			'^[a-z]*$': {
 				type: 'string'
 			},
 			'^[A-Z]*$': {
-				type: 'object'
+				type: 'object',
+				properties: {
+					test: {
+						type: 'string'
+					}
+				}
 			}
 		}
 	};
@@ -144,23 +154,90 @@ test('keeping additionalProperties with object type', function(assert) {
 	expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'object',
-		additionalProperties: {
-			type: 'object'
-		},
+		additionalProperties: false,
 		patternProperties: {
 			'^[a-z]*$': {
 				type: 'string'
 			},
 			'^[A-Z]*$': {
-				type: 'object'
+				type: 'object',
+				properties: {
+					test: {
+						type: 'string'
+					}
+				}
 			}
 		}
 	};
 
-	assert.deepEqual(result, expected, 'additionalProperties kept unchanged');
+	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
-test('keeping additionalProperties with array type', function(assert) {
+test('handling additionalProperties with non-matching objects', function(assert) {
+	var schema
+		, result
+		, expected
+	;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		additionalProperties: {
+			type: 'object',
+			properties: {
+				test: {
+					type: 'string'
+				}
+			}
+		},
+		'x-patternProperties': {
+			'^[a-z]*$': {
+				type: 'string'
+			},
+			'^[A-Z]*$': {
+				type: 'object',
+				properties: {
+					test: {
+						type: 'integer'
+					}
+				}
+			}
+		}
+	};
+
+	result = convert(schema, {supportPatternProperties: true});
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		additionalProperties: {
+			type: 'object',
+			properties: {
+				test: {
+					type: 'string'
+				}
+			}
+		},
+		patternProperties: {
+			'^[a-z]*$': {
+				type: 'string'
+			},
+			'^[A-Z]*$': {
+				type: 'object',
+				properties: {
+					test: {
+						type: 'integer'
+					}
+				}
+			}
+		}
+	};
+
+	assert.deepEqual(result, expected, 'additionalProperties not changed');
+});
+
+test('handling additionalProperties with matching array', function(assert) {
 	var schema
 		, result
 		, expected
@@ -194,12 +271,7 @@ test('keeping additionalProperties with array type', function(assert) {
 	expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'object',
-		additionalProperties: {
-			type: 'array',
-			items: {
-				type: 'string'
-			}
-		},
+		additionalProperties: false,
 		patternProperties: {
 			'^[a-z]*$': {
 				type: 'string'
@@ -213,7 +285,64 @@ test('keeping additionalProperties with array type', function(assert) {
 		}
 	};
 
-	assert.deepEqual(result, expected, 'additionalProperties kept unchanged');
+	assert.deepEqual(result, expected, 'additionalProperties set to false');
+});
+
+test('handling additionalProperties with composition types', function(assert) {
+	var schema
+		, result
+		, expected
+	;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		additionalProperties: {
+			oneOf: [
+				{
+					type: 'string'
+				},
+				{
+					type: 'integer'
+				}
+			]
+		},
+		'x-patternProperties': {
+			'^[a-z]*$': {
+				oneOf: [
+					{
+						type: 'string'
+					},
+					{
+						type: 'integer'
+					}
+				]
+			}
+		}
+	};
+
+	result = convert(schema, {supportPatternProperties: true});
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		additionalProperties: false,
+		patternProperties: {
+			'^[a-z]*$': {
+				oneOf: [
+					{
+						type: 'string'
+					},
+					{
+						type: 'integer'
+					}
+				]
+			}
+		}
+	};
+
+	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
 test('not supporting patternProperties', function(assert) {
@@ -369,3 +498,4 @@ test('additionalProperties not modified if set to true', function(assert) {
 
 	assert.deepEqual(result, expected, 'additionalProperties not removed');
 });
+

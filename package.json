@@ -9,7 +9,9 @@
   "repository": "github:mikunn/openapi-schema-to-json-schema",
   "author": "Mika Kunnas",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "deep-equal": "^1.0.1"
+  },
   "devDependencies": {
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0"

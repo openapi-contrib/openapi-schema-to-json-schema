@@ -1,3 +1,5 @@
+var deepEqual = require('deep-equal');
+
 module.exports = convert;
 
 function convert(schema, options) {
@@ -156,7 +158,6 @@ function patternPropertiesHandler(schema) {
 	var pattern
 		, patternsObj = schema.patternProperties
 		, additProps = schema.additionalProperties
-		, type
 	;
 
 	if (typeof additProps !== 'object') {
@@ -164,9 +165,7 @@ function patternPropertiesHandler(schema) {
 	}
 
 	for (pattern in patternsObj) {
-		type = patternsObj[pattern].type;
-
-		if ((type === additProps.type) && type !== 'object' && type !== 'array') {
+		if (deepEqual(patternsObj[pattern], additProps)) {
 			schema.additionalProperties = false;
 			break;
 		}

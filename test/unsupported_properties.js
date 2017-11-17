@@ -14,7 +14,7 @@ test('remove discriminator by default', function(assert) {
 		oneOf: [
 			{
 				type: 'object',
-				required: 'foo',
+				required: ['foo'],
 				properties: {
 					foo: {
 						type: 'string'
@@ -23,7 +23,7 @@ test('remove discriminator by default', function(assert) {
 			},
 			{
 				type: 'object',
-				required: 'foo',
+				required: ['foo'],
 				properties: {
 					foo: {
 						type: 'string'
@@ -43,7 +43,7 @@ test('remove discriminator by default', function(assert) {
 		oneOf: [
 			{
 				type: 'object',
-				required: 'foo',
+				required: ['foo'],
 				properties: {
 					foo: {
 						type: 'string'
@@ -52,7 +52,7 @@ test('remove discriminator by default', function(assert) {
 			},
 			{
 				type: 'object',
-				required: 'foo',
+				required: ['foo'],
 				properties: {
 					foo: {
 						type: 'string'

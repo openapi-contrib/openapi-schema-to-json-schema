@@ -3,21 +3,24 @@ var deepEqual = require('deep-equal');
 module.exports = convert;
 
 function convert(schema, options) {
+	var notSupported = [
+		'nullable', 'discriminator', 'readOnly',
+		'writeOnly', 'xml', 'externalDocs',
+		'example', 'deprecated'
+	];
+
 	options = options || {};
 	options.dateToDateTime = options.dateToDateTime || false;
 	options.cloneSchema = options.cloneSchema == false ? false : true;
 	options.supportPatternProperties = options.supportPatternProperties || false;
+	options.keepNotSupported = options.keepNotSupported || [];
 
 	if (typeof options.patternPropertiesHandler !== 'function') {
 		options.patternPropertiesHandler = patternPropertiesHandler;
 	}
 
 	options._structs = ['allOf', 'anyOf', 'oneOf', 'not', 'items', 'additionalProperties'];
-	options._notSupported = [
-		'nullable', 'discriminator', 'readOnly', 
-		'writeOnly', 'xml', 'externalDocs',
-		'example', 'deprecated'
-	];
+	options._notSupported = resolveNotSupported(notSupported, options.keepNotSupported);
 
 	if (options.cloneSchema) {
 		schema = JSON.parse(JSON.stringify(schema));
@@ -172,4 +175,20 @@ function patternPropertiesHandler(schema) {
 	}
 
 	return schema;
+}
+
+function resolveNotSupported(notSupported, toRetain) {
+	var i = 0
+		, index
+	;
+
+	for(i; i < toRetain.length; i++) {
+		index = notSupported.indexOf(toRetain[i]);
+
+		if (index >= 0) {
+			notSupported.splice(index, 1);
+		}
+	}
+
+	return notSupported;
 }

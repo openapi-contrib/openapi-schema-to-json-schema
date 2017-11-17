@@ -2,7 +2,7 @@ var test = require('tape')
 	, convert = require('../')
 ;
 
-test('remove discriminator', function(assert) {
+test('remove discriminator by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -65,7 +65,7 @@ test('remove discriminator', function(assert) {
 	assert.deepEqual(result, expected, 'discriminator removed');
 });
 
-test('remove readOnly', function(assert) {
+test('remove readOnly by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -97,7 +97,7 @@ test('remove readOnly', function(assert) {
 	assert.deepEqual(result, expected, 'readOnly removed');
 });
 
-test('remove writeOnly', function(assert) {
+test('remove writeOnly by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -132,7 +132,7 @@ test('remove writeOnly', function(assert) {
 	assert.deepEqual(result, expected, 'writeOnly removed');
 });
 
-test('remove xml', function(assert) {
+test('remove xml by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -167,7 +167,7 @@ test('remove xml', function(assert) {
 	assert.deepEqual(result, expected, 'xml removed');
 });
 
-test('remove externalDocs', function(assert) {
+test('remove externalDocs by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -202,7 +202,7 @@ test('remove externalDocs', function(assert) {
 	assert.deepEqual(result, expected, 'externalDocs removed');
 });
 
-test('remove example', function(assert) {
+test('remove example by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -225,7 +225,7 @@ test('remove example', function(assert) {
 	assert.deepEqual(result, expected, 'example removed');
 });
 
-test('remove deprecated', function(assert) {
+test('remove deprecated by default', function(assert) {
 	var schema
 		, result
 		, expected
@@ -247,3 +247,58 @@ test('remove deprecated', function(assert) {
 
 	assert.deepEqual(result, expected, 'deprecated removed');
 });
+
+test('retaining fields', function(assert) {
+	var schema
+		, result
+		, expected
+	;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		properties: {
+			readOnly: {
+				type: 'string',
+				readOnly: true,
+				example: 'foo'
+			},
+			anotherProp: {
+				type: 'object',
+				properties: {
+					writeOnly: {
+						type: 'string',
+						writeOnly: true
+					}
+				}
+			}
+		},
+		discriminator: 'bar'
+	};
+
+	result = convert(schema, { keepNotSupported: ['readOnly', 'discriminator'] });
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		properties: {
+			readOnly: {
+				type: 'string',
+				readOnly: true,
+			},
+			anotherProp: {
+				type: 'object',
+				properties: {
+					writeOnly: {
+						type: 'string',
+					}
+				}
+			}
+		},
+		discriminator: 'bar'
+	};
+
+	assert.deepEqual(result, expected, 'example and writeOnly removed');
+});
+

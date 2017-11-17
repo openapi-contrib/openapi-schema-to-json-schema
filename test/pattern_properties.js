@@ -425,6 +425,7 @@ test('setting custom patternProperties handler', function(assert) {
 	var schema
 		, result
 		, expected
+		, options
 	;
 
 	assert.plan(1);
@@ -467,7 +468,6 @@ test('additionalProperties not modified if set to true', function(assert) {
 	var schema
 		, result
 		, expected
-		, options
 	;
 
 	assert.plan(1);

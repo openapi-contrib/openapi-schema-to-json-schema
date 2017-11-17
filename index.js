@@ -19,6 +19,16 @@ function convert(schema, options) {
 		options.patternPropertiesHandler = patternPropertiesHandler;
 	}
 
+	options._removeProps = [];
+
+	if (options.removeReadOnly === true) {
+		options._removeProps.push('readOnly');
+	}
+
+	if (options.removeWriteOnly === true) {
+		options._removeProps.push('writeOnly');
+	}
+
 	options._structs = ['allOf', 'anyOf', 'oneOf', 'not', 'items', 'additionalProperties'];
 	options._notSupported = resolveNotSupported(notSupported, options.keepNotSupported);
 
@@ -54,9 +64,22 @@ function convertSchema(schema, options) {
 
 	if (typeof schema.properties === 'object') {
 		schema.properties = convertProperties(schema.properties, options);
+
+		if (Array.isArray(schema.required)) {
+			schema.required = cleanRequired(schema.required, schema.properties);
+
+			if (schema.required.length === 0) {
+				delete schema.required;
+			}
+		}
+		if (Object.keys(schema.properties).length === 0) {
+			delete schema.properties;
+		}
+
 	}
 
 	schema = convertTypes(schema, options);
+
 	if (typeof schema['x-patternProperties'] === 'object'
 			&& options.supportPatternProperties) {
 		schema = convertPatternProperties(schema, options.patternPropertiesHandler);
@@ -70,13 +93,30 @@ function convertSchema(schema, options) {
 }
 
 function convertProperties(properties, options) {
-	var key;
+	var key
+		, property
+		, props = {}
+		, removeProp
+	;
 
 	for (key in properties) {
-		properties[key] = convertSchema(properties[key], options);
+		removeProp = false;
+		property = properties[key];
+
+		options._removeProps.forEach(function(prop) {
+			if (property[prop] === true) {
+				removeProp = true;
+			}
+		});
+
+		if (removeProp) {
+			continue;
+		}
+
+		props[key] = convertSchema(property, options);
 	}
 
-	return properties;
+	return props;
 }
 
 function convertTypes(schema, options) {
@@ -182,7 +222,7 @@ function resolveNotSupported(notSupported, toRetain) {
 		, index
 	;
 
-	for(i; i < toRetain.length; i++) {
+	for (i; i < toRetain.length; i++) {
 		index = notSupported.indexOf(toRetain[i]);
 
 		if (index >= 0) {
@@ -191,4 +231,19 @@ function resolveNotSupported(notSupported, toRetain) {
 	}
 
 	return notSupported;
+}
+
+function cleanRequired(required, properties) {
+	var i = 0;
+
+	required = required || [];
+	properties = properties || {};
+
+	for (i; i < required.length; i++) {
+		if (properties[required[i]] === undefined) {
+			required.splice(i, 1);
+		}
+	}
+
+	return required;
 }

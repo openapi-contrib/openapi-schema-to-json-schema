@@ -100,6 +100,14 @@ prints
 
 By default, the following fields are removed from the result schema: `nullable`, `discriminator`, `readOnly`, `writeOnly`, `xml`, `externalDocs`, `example` and `deprecated` as they are not supported by JSON Schema Draft 4. Provide an array of the ones you want to keep (as strings) and they won't be removed. 
 
+#### `removeReadOnly` (boolean)
+
+If set to `true`, will remove properties set as `readOnly`. If the property is set as `required`, it will be removed from the `required` array as well. The property will be removed even if `readOnly` is set to be kept with `keepNotSupported`.
+
+#### `removeWriteOnly` (boolean)
+
+Similar to `removeReadOnly`, but for `writeOnly` properties.
+
 #### `supportPatternProperties` (boolean)
  
 If set to `true` and `x-patternProperties` property is present, change `x-patternProperties` to `patternProperties` and call `patternPropertiesHandler`. If `patternPropertiesHandler` is not defined, call the default handler. See `patternPropertiesHandler` for more information.

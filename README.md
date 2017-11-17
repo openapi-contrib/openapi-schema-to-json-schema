@@ -19,7 +19,7 @@ The purpose of this project is to fill the grap by doing the conversion between 
   * for example `type: "dateTime"` becomes `type: "string"` with `format: "date-time"`
 * deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
 * supports deep structures with nested `allOf`s etc.
-* removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc.
+* removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
 * optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
 **NOTE**: `$ref`s are not dereferenced. Use a dereferencer such as [json-schema-ref-parser](https://www.npmjs.com/package/json-schema-ref-parser) prior to using this package.
@@ -95,6 +95,10 @@ prints
   '$schema': 'http://json-schema.org/draft-04/schema#'
 }
 ```
+
+#### `keepNotSupported` (array)
+
+By default, the following fields are removed from the result schema: `nullable`, `discriminator`, `readOnly`, `writeOnly`, `xml`, `externalDocs`, `example` and `deprecated` as they are not supported by JSON Schema Draft 4. Provide an array of the ones you want to keep (as strings) and they won't be removed. 
 
 #### `supportPatternProperties` (boolean)
  

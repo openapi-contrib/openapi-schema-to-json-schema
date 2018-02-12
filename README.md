@@ -10,7 +10,7 @@ OpenAPI is a specification for describing RESTful APIs. OpenAPI 3.0 allows us to
 
 The good news is that there are many validators for JSON Schema for different languages. The bad news is that OpenAPI 3.0 is not entirely compatible with JSON Schema. The Schema Object of OpenAPI 3.0 is an extended subset of JSON Schema Specification Wright Draft 00 with some differences.
 
-The purpose of this project is to fill the grap by doing the conversion between these two formats.
+The purpose of this project is to fill the gap by doing the conversion between these two formats.
 
 ## Features
 

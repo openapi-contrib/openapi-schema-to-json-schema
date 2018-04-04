@@ -12,6 +12,10 @@ The good news is that there are many validators for JSON Schema for different la
 
 The purpose of this project is to fill the gap by doing the conversion between these two formats.
 
+There is also a [CLI tool for this](https://github.com/mikunn/openapi2schema).
+
+If you need to do the conversion in reverse, checkout [json-schema-to-openapi-schema](https://github.com/philsturgeon/json-schema-to-openapi-schema).
+
 ## Features
 
 * converts OpenAPI 3.0 Schema Object to JSON Schema Draft 4

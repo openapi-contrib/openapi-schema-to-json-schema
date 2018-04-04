@@ -1,6 +1,5 @@
 var test = require('tape')
-	, join = require('path').join
-	, fs = require('fs')
+	, getSchema = require('./helpers').getSchema
 	, convert = require('../')
 ;
 
@@ -28,8 +27,3 @@ test('invalid types', function(assert) {
 	msg = 'invalid type inside complex schema';
 	assert.throws(function() { convert(schema); }, /InvalidTypeError.*invalidtype/, msg);
 });
-
-function getSchema(file) {
-	var path = join(__dirname, 'schemas', file);
-	return JSON.parse(fs.readFileSync(path));
-}

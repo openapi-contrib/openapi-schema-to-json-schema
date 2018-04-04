@@ -1,6 +1,5 @@
-var fs = require('fs')
-	,	join = require('path').join
-	, test = require('tape')
+var test = require('tape')
+	, getSchema = require('./helpers').getSchema
 	, convert = require('../')
 ;
 
@@ -35,7 +34,3 @@ test('converting complex schema in place', function(assert) {
 	assert.deepEqual(result, expected, 'converted');
 });
 
-function getSchema(file) {
-	var path = join(__dirname, 'schemas', file);
-	return JSON.parse(fs.readFileSync(path));
-}

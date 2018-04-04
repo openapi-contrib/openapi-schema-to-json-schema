@@ -44,7 +44,7 @@ test('properties', function(assert) {
 	assert.deepEqual(result, expected, 'converted');
 });
 
-test('addionalProperties is false', function(assert) {
+test('additionalProperties is false', function(assert) {
 	var schema
 		, result
 		, expected
@@ -79,7 +79,7 @@ test('addionalProperties is false', function(assert) {
 	assert.deepEqual(result, expected, 'properties converted');
 });
 
-test('addionalProperties is true', function(assert) {
+test('additionalProperties is true', function(assert) {
 	var schema
 		, result
 		, expected
@@ -114,7 +114,7 @@ test('addionalProperties is true', function(assert) {
 	assert.deepEqual(result, expected, 'properties converted');
 });
 
-test('addionalProperties is an object', function(assert) {
+test('additionalProperties is an object', function(assert) {
 	var schema
 		, result
 		, expected

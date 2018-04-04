@@ -2,6 +2,13 @@ var deepEqual = require('deep-equal');
 
 module.exports = convert;
 
+function InvalidTypeError(message) {
+	this.name = 'InvalidTypeError';
+	this.message = message;
+}
+
+InvalidTypeError.prototype = new Error();
+
 function convert(schema, options) {
 	var notSupported = [
 		'nullable', 'discriminator', 'readOnly',
@@ -78,6 +85,7 @@ function convertSchema(schema, options) {
 
 	}
 
+	validateType(schema.type);
 	schema = convertTypes(schema, options);
 
 	if (typeof schema['x-patternProperties'] === 'object'
@@ -117,6 +125,14 @@ function convertProperties(properties, options) {
 	}
 
 	return props;
+}
+
+function validateType(type) {
+	var validTypes = ['integer', 'number', 'string', 'boolean', 'object', 'array'];
+
+	if (validTypes.indexOf(type) < 0 && type !== undefined) {
+		throw new InvalidTypeError('Type "' + type + '" is not a valid type');
+	}
 }
 
 function convertTypes(schema, options) {

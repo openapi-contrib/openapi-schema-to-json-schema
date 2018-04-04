@@ -1,0 +1,131 @@
+{
+	"allOf": [
+    {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "cats": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64",
+                "example": [
+                  1
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dogs": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64",
+                "example": [
+                  1
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "bring_cats": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "example": "cats@email.com"
+                      },
+                      "sms": {
+                        "type": "string",
+                        "nullable": true,
+                        "example": "+12345678"
+                      },
+                      "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "invalidtype"
+                        },
+                        "example": {
+                          "name": "Wookie"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "email"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "playground": {
+          "type": "object",
+          "required": [
+            "feeling",
+            "child"
+          ],
+          "properties": {
+            "feeling": {
+              "type": "string",
+              "example": "Good feeling"
+            },
+            "child": {
+              "type": "object",
+              "required": [
+                "name",
+                "age"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Steven"
+                },
+                "age": {
+                  "type": "integer",
+                  "example": 5
+                }
+              }
+            },
+            "toy": {
+              "type": "object",
+              "properties": {
+                "breaks_easily": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "color": {
+                  "type": "string",
+                  "description": "Color of the toy"
+                },
+                "type": {
+                  "type": "string",
+									"enum": ["bucket", "shovel"],
+                  "description": "Toy type"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

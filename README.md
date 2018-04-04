@@ -15,8 +15,8 @@ The purpose of this project is to fill the gap by doing the conversion between t
 ## Features
 
 * converts OpenAPI 3.0 Schema Object to JSON Schema Draft 4
-* converts [common named data types](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#data-types) to `type` and `format`
-  * for example `type: "dateTime"` becomes `type: "string"` with `format: "date-time"`
+* ~~converts [common named data types](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#data-types) to `type` and `format`~~ *(removed in version 2.0.0)*
+  * ~~for example `type: "dateTime"` becomes `type: "string"` with `format: "date-time"`~~
 * deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
 * supports deep structures with nested `allOf`s etc.
 * removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
@@ -39,7 +39,8 @@ Here's a small example to get the idea:
 var toJsonSchema = require('openapi-schema-to-json-schema');
 
 var schema = {
-  type: 'dateTime',
+  type: 'string',
+  format: 'date-time',
   nullable: true
 };
 
@@ -70,15 +71,14 @@ If set to `false`, converts the provided schema in place. If `true`, clones the 
 
 #### `dateToDateTime` (boolean)
 
-This is `false` by default and leaves `date` type/format as is. If set to `true`, sets `type: "string"` and `format: "date-time"` if
-  * `type: "string"` AND `format: "date"` OR
-  * `type: "date"`
+This is `false` by default and leaves `date` format as is. If set to `true`, sets `format: 'date'` to `format: 'date-time'`.
   
 For example
 
 ```js
 var schema = {
-  type: 'date'
+  type: 'string',
+  format: 'date'
 };
 
 var convertedSchema = toJsonSchema(schema, {dateToDateTime: true});

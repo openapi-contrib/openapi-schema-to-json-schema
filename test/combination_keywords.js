@@ -2,7 +2,7 @@ var test = require('tape')
 	, convert = require('../')
 ;
 
-test('iterates allOfs and converts types', function(assert) {
+test('iterates allOfs', function(assert) {
 	var schema
 		, result
 		, expected
@@ -17,14 +17,16 @@ test('iterates allOfs and converts types', function(assert) {
 				required: ['foo'],
 				properties: {
 					foo: {
-						type: 'long'
+						type: 'integer',
+						format: 'int64'
 					}
 				}
 			},
 			{
 				allOf: [
 					{
-						type: 'double'
+						type: 'number',
+						format: 'double'
 					}
 				]
 			}
@@ -56,11 +58,11 @@ test('iterates allOfs and converts types', function(assert) {
 			}
 		]
 	};
-	
+
 	assert.deepEqual(result, expected, 'iterated allOfs');
 });
 
-test('iterates anyOfs and converts types', function(assert) {
+test('iterates anyOfs', function(assert) {
 	var schema
 		, result
 		, expected
@@ -75,7 +77,7 @@ test('iterates anyOfs and converts types', function(assert) {
 				required: ['foo'],
 				properties: {
 					foo: {
-						type: 'long'
+						type: 'integer'
 					}
 				}
 			},
@@ -85,7 +87,7 @@ test('iterates anyOfs and converts types', function(assert) {
 						type: 'object',
 						properties: {
 							bar: {
-								type: 'double'
+								type: 'number'
 							}
 						}
 					}
@@ -105,7 +107,6 @@ test('iterates anyOfs and converts types', function(assert) {
 				properties: {
 					foo: {
 						type: 'integer',
-						format: 'int64'
 					}
 				}
 			},
@@ -116,7 +117,6 @@ test('iterates anyOfs and converts types', function(assert) {
 						properties: {
 							bar: {
 								type: 'number',
-								format: 'double'
 							}
 						}
 					}
@@ -124,11 +124,11 @@ test('iterates anyOfs and converts types', function(assert) {
 			}
 		]
 	};
-	
+
 	assert.deepEqual(result, expected, 'anyOfs iterated');
 });
 
-test('iterates oneOfs and converts types', function(assert) {
+test('iterates oneOfs', function(assert) {
 	var schema
 		, result
 		, expected
@@ -143,7 +143,7 @@ test('iterates oneOfs and converts types', function(assert) {
 				required: ['foo'],
 				properties: {
 					foo: {
-						type: 'long'
+						type: 'integer'
 					}
 				}
 			},
@@ -153,7 +153,7 @@ test('iterates oneOfs and converts types', function(assert) {
 						type: 'object',
 						properties: {
 							bar: {
-								type: 'double'
+								type: 'number'
 							}
 						}
 					}
@@ -173,7 +173,6 @@ test('iterates oneOfs and converts types', function(assert) {
 				properties: {
 					foo: {
 						type: 'integer',
-						format: 'int64'
 					}
 				}
 			},
@@ -184,7 +183,6 @@ test('iterates oneOfs and converts types', function(assert) {
 						properties: {
 							bar: {
 								type: 'number',
-								format: 'double'
 							}
 						}
 					}
@@ -192,7 +190,7 @@ test('iterates oneOfs and converts types', function(assert) {
 			}
 		]
 	};
-	
+
 	assert.deepEqual(result, expected, 'oneOfs iterated');
 });
 
@@ -208,8 +206,9 @@ test('converts types in not', function(assert) {
 		type: 'object',
 		properties: {
 			not: {
-				type: 'password',
-				minLength: 8 
+				type: 'string',
+				format: 'password',
+				minLength: 8
 			}
 		}
 	};
@@ -223,11 +222,11 @@ test('converts types in not', function(assert) {
 			not: {
 				type: 'string',
 				format: 'password',
-				minLength: 8 
+				minLength: 8
 			}
 		}
 	};
-	
+
 	assert.deepEqual(result, expected, 'not handled');
 });
 
@@ -241,8 +240,9 @@ test('converts types in not', function(assert) {
 
 	schema = {
 		not: {
-			type: 'password',
-			minLength: 8 
+			type: 'string',
+			format: 'password',
+			minLength: 8
 		}
 	};
 
@@ -253,10 +253,10 @@ test('converts types in not', function(assert) {
 		not: {
 			type: 'string',
 			format: 'password',
-			minLength: 8 
+			minLength: 8
 		}
 	};
-	
+
 	assert.deepEqual(result, expected, 'not handled');
 });
 
@@ -349,6 +349,6 @@ test('nested combination keywords', function(assert) {
 			}
 		]
 	};
-	
+
 	assert.deepEqual(result, expected, 'nested combination keywords');
 });

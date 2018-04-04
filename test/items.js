@@ -13,7 +13,8 @@ test('items', function(assert) {
 	schema = {
 		type: 'array',
 		items: {
-			type: 'dateTime',
+			type: 'string',
+			format: 'date-time',
 			example: '2017-01-01T12:34:56Z'
 		}
 	};

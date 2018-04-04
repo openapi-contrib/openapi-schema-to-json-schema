@@ -2,13 +2,13 @@ var test = require('tape')
 	, convert = require('../')
 ;
 
-test('converts integer types', function(assert) {
+test('handles integer types', function(assert) {
 	var schema
 		, result
 		, expected
 	;
 
-	assert.plan(3);
+	assert.plan(2);
 
 	schema = {
 		type: 'integer',
@@ -21,11 +21,11 @@ test('converts integer types', function(assert) {
 		type: 'integer',
 	};
 
-	assert.deepEqual(result, expected, 'plain integer not changed');
+	assert.deepEqual(result, expected, 'integer type untouched');
 
 	schema = {
 		type: 'integer',
-		format: 'int64'
+		format: 'int32',
 	};
 
 	result = convert(schema);
@@ -33,61 +33,19 @@ test('converts integer types', function(assert) {
 	expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'integer',
-		format: 'int64'
+		format: 'int32'
 	};
 
-	assert.deepEqual(result, expected, 'respects integer format');
-
-	schema = {
-		type: 'long',
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'integer',
-		format: 'int64'
-	};
-
-	assert.deepEqual(result, expected, 'long converted');
+	assert.deepEqual(result, expected, 'integer type and format untouched');
 });
 
-test('converts number types', function(assert) {
+test('handles number types', function(assert) {
 	var schema
 		, result
 		, expected
 	;
 
-	assert.plan(4);
-
-	schema = {
-		type: 'float',
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'number',
-		format: 'float'
-	};
-
-	assert.deepEqual(result, expected, 'float converted');
-
-	schema = {
-		type: 'double',
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'number',
-		format: 'double'
-	};
-
-	assert.deepEqual(result, expected, 'double converted');
+	assert.plan(2);
 
 	schema = {
 		type: 'number',
@@ -100,7 +58,7 @@ test('converts number types', function(assert) {
 		type: 'number',
 	};
 
-	assert.deepEqual(result, expected, 'number untouched');
+	assert.deepEqual(result, expected, 'number type untouched');
 
 	schema = {
 		type: 'number',
@@ -115,5 +73,5 @@ test('converts number types', function(assert) {
 		format: 'float'
 	};
 
-	assert.deepEqual(result, expected, 'number and format untouched');
+	assert.deepEqual(result, expected, 'number type and format untouched');
 });

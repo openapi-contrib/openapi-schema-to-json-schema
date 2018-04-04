@@ -14,7 +14,7 @@ test('complex schema', function(assert) {
 
 	schema = getSchema('schema-1.json');
 	result = convert(schema);
-	expected = getSchema('schema-1-expected.json'); 
+	expected = getSchema('schema-1-expected.json');
 
 	assert.deepEqual(result, expected, 'converted');
 });
@@ -27,9 +27,9 @@ test('converting complex schema in place', function(assert) {
 
 	assert.plan(2);
 
-	schema = getSchema('schema-1.json'); 
+	schema = getSchema('schema-1.json');
 	result = convert(schema, {cloneSchema: false});
-	expected = getSchema('schema-1-expected.json'); 
+	expected = getSchema('schema-1-expected.json');
 
 	assert.equal(schema, result, 'changed schema in place');
 	assert.deepEqual(result, expected, 'converted');
@@ -37,5 +37,5 @@ test('converting complex schema in place', function(assert) {
 
 function getSchema(file) {
 	var path = join(__dirname, 'schemas', file);
-	return JSON.parse(fs.readFileSync(path)); 
+	return JSON.parse(fs.readFileSync(path));
 }

@@ -235,7 +235,7 @@ test('remove deprecated by default', function(assert) {
 
 	schema = {
 		type: 'string',
-		deprecated: true 
+		deprecated: true
 	};
 
 	result = convert(schema);

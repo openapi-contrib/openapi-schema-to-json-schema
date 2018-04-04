@@ -137,7 +137,7 @@ function convertTypes(schema, options) {
 	if (schema.nullable === true) {
 		schema.type = [schema.type, 'null'];
 	}
-	
+
 	return schema;
 }
 

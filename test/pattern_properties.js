@@ -449,7 +449,7 @@ test('setting custom patternProperties handler', function(assert) {
 			return schema;
 		}
 	};
-	
+
 	result = convert(schema, options);
 
 	expected = {

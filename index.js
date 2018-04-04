@@ -120,10 +120,7 @@ function convertProperties(properties, options) {
 }
 
 function convertTypes(schema, options) {
-	var newType
-		, newFormat
-		, toDateTime = options.dateToDateTime
-	;
+	var toDateTime = options.dateToDateTime;
 
 	if (schema.type === undefined) {
 		return schema;
@@ -132,52 +129,6 @@ function convertTypes(schema, options) {
 	if (schema.type == 'string' && schema.format == 'date' && toDateTime === true) {
 		schema.format = 'date-time';
 	}
-
-	switch(schema.type) {
-		case 'integer':
-			newType = 'integer';
-			break;
-		case 'long':
-			newType = 'integer';
-			newFormat = 'int64';
-			break;
-		case 'float':
-			newType = 'number';
-			newFormat = 'float';
-			break;
-		case 'double':
-			newType = 'number';
-			newFormat = 'double';
-			break;
-		case 'byte':
-			newType = 'string';
-			newFormat = 'byte';
-			break;
-		case 'binary':
-			newType = 'string';
-			newFormat = 'binary';
-			break;
-		case 'date':
-			newType = 'string';
-			newFormat = 'date';
-			if (toDateTime === true) {
-				newFormat = 'date-time';
-			}
-			break;
-		case 'dateTime':
-			newType = 'string';
-			newFormat = 'date-time';
-			break;
-		case 'password':
-			newType = 'string';
-			newFormat = 'password';
-			break;
-		default:
-			newType = schema.type;
-	}
-
-	schema.type = newType;
-	schema.format = typeof newFormat === 'string' ? newFormat : schema.format;
 
 	if (! schema.format) {
 		delete schema.format;

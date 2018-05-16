@@ -17,16 +17,14 @@ test('iterates allOfs', function(assert) {
 				required: ['foo'],
 				properties: {
 					foo: {
-						type: 'integer',
-						format: 'int64'
+						type: 'integer'
 					}
 				}
 			},
 			{
 				allOf: [
 					{
-						type: 'number',
-						format: 'double'
+						type: 'number'
 					}
 				]
 			}
@@ -43,16 +41,14 @@ test('iterates allOfs', function(assert) {
 				required: ['foo'],
 				properties: {
 					foo: {
-						type: 'integer',
-						format: 'int64'
+						type: 'integer'
 					}
 				}
 			},
 			{
 				allOf: [
 					{
-						type: 'number',
-						format: 'double'
+						type: 'number'
 					}
 				]
 			}
@@ -207,7 +203,6 @@ test('converts types in not', function(assert) {
 		properties: {
 			not: {
 				type: 'string',
-				format: 'password',
 				minLength: 8
 			}
 		}
@@ -221,7 +216,6 @@ test('converts types in not', function(assert) {
 		properties: {
 			not: {
 				type: 'string',
-				format: 'password',
 				minLength: 8
 			}
 		}
@@ -241,7 +235,6 @@ test('converts types in not', function(assert) {
 	schema = {
 		not: {
 			type: 'string',
-			format: 'password',
 			minLength: 8
 		}
 	};
@@ -252,7 +245,6 @@ test('converts types in not', function(assert) {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		not: {
 			type: 'string',
-			format: 'password',
 			minLength: 8
 		}
 	};

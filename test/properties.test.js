@@ -134,8 +134,7 @@ test('additionalProperties is an object', function(assert) {
 			type: 'object',
 			properties: {
 				foo: {
-					type: 'string',
-					format: 'date-time'
+					type: 'string'
 				}
 			}
 		}
@@ -155,8 +154,7 @@ test('additionalProperties is an object', function(assert) {
 			type: 'object',
 			properties: {
 				foo: {
-					type: 'string',
-					format: 'date-time'
+					type: 'string'
 				}
 			}
 		}

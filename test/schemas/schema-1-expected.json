@@ -8,8 +8,7 @@
             "cats": {
               "type": "array",
               "items": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             }
           }
@@ -20,8 +19,7 @@
             "dogs": {
               "type": "array",
               "items": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             }
           }
@@ -118,4 +116,3 @@
   ],
   "$schema": "http://json-schema.org/draft-04/schema#"
 }
-

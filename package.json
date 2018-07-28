@@ -4,7 +4,8 @@
   "description": "Converts OpenAPI Schema Object to JSON Schema",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/tape test/**/*.test.js | ./node_modules/.bin/tap-spec"
+    "test": "npm run lint && ./node_modules/.bin/tape test/**/*.test.js | ./node_modules/.bin/tap-spec",
+    "lint": "eslint ."
   },
   "repository": "github:mikunn/openapi-schema-to-json-schema",
   "author": "Mika Kunnas",
@@ -13,6 +14,7 @@
     "deep-equal": "^1.0.1"
   },
   "devDependencies": {
+    "eslint": "^5.0.0-alpha.3",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0"
   }

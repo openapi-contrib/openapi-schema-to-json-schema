@@ -110,7 +110,6 @@ test('remove writeOnly by default', function(assert) {
 		properties: {
 			test: {
 				type: 'string',
-				format: 'password',
 				writeOnly: true
 			}
 		}
@@ -123,8 +122,7 @@ test('remove writeOnly by default', function(assert) {
 		type: 'object',
 		properties: {
 			test: {
-				type: 'string',
-				format: 'password'
+				type: 'string'
 			}
 		}
 	};
@@ -301,4 +299,3 @@ test('retaining fields', function(assert) {
 
 	assert.deepEqual(result, expected, 'example and writeOnly removed');
 });
-

@@ -9,7 +9,6 @@
               "type": "array",
               "items": {
                 "type": "integer",
-                "format": "int64",
                 "example": [
                   1
                 ]
@@ -24,7 +23,6 @@
               "type": "array",
               "items": {
                 "type": "integer",
-                "format": "int64",
                 "example": [
                   1
                 ]

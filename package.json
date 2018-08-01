@@ -4,7 +4,7 @@
   "description": "Converts OpenAPI Schema Object to JSON Schema",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && ./node_modules/.bin/tape test/**/*.test.js | ./node_modules/.bin/tap-spec",
+    "test": "./node_modules/.bin/tape test/**/*.test.js | ./node_modules/.bin/tap-spec && npm run lint",
     "lint": "eslint ."
   },
   "repository": "github:mikunn/openapi-schema-to-json-schema",

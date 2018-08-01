@@ -1,9 +1,9 @@
 var deepEqual = require('deep-equal');
-var converter = require('./lib/converter');
+var convert = require('./lib/convert');
 
-module.exports = convert;
+module.exports = openapiSchemaToJsonSchema;
 
-function convert(schema, options) {
+function openapiSchemaToJsonSchema(schema, options) {
 	var notSupported = [
 		'nullable', 'discriminator', 'readOnly',
 		'writeOnly', 'xml', 'externalDocs',
@@ -37,7 +37,7 @@ function convert(schema, options) {
 		schema = JSON.parse(JSON.stringify(schema));
 	}
 
-	schema = converter.schema(schema, options);
+	schema = convert.schema(schema, options);
 	schema['$schema'] = 'http://json-schema.org/draft-04/schema#';
 
 	return schema;

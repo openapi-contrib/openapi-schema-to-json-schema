@@ -1,6 +1,6 @@
 # OpenAPI Schema to JSON Schema
 
-A little NodeJS package to convert OpenAPI Schema Object to JSON Schema.
+A little NodeJS package to convert OpenAPI Schema Object or Parameter Object to JSON Schema.
 
 Currently converts from [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) to [JSON Schema Draft 4](http://json-schema.org/specification-links.html#draft-4).
 
@@ -19,6 +19,7 @@ If you need to do the conversion in reverse, checkout [json-schema-to-openapi-sc
 ## Features
 
 * converts OpenAPI 3.0 Schema Object to JSON Schema Draft 4
+* converts OpenAPI 3.0 Parameter Object to JSON Schema Draft 4
 * ~~converts [common named data types](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#data-types) to `type` and `format`~~ *(removed in version 2.0.0)*
   * ~~for example `type: "dateTime"` becomes `type: "string"` with `format: "date-time"`~~
 * deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
@@ -76,7 +77,7 @@ If set to `false`, converts the provided schema in place. If `true`, clones the 
 #### `dateToDateTime` (boolean)
 
 This is `false` by default and leaves `date` format as is. If set to `true`, sets `format: 'date'` to `format: 'date-time'`.
-  
+
 For example
 
 ```js
@@ -90,7 +91,7 @@ var convertedSchema = toJsonSchema(schema, {dateToDateTime: true});
 console.log(convertedSchema);
 ```
 
-prints 
+prints
 
 ```js
 {
@@ -102,7 +103,7 @@ prints
 
 #### `keepNotSupported` (array)
 
-By default, the following fields are removed from the result schema: `nullable`, `discriminator`, `readOnly`, `writeOnly`, `xml`, `externalDocs`, `example` and `deprecated` as they are not supported by JSON Schema Draft 4. Provide an array of the ones you want to keep (as strings) and they won't be removed. 
+By default, the following fields are removed from the result schema: `nullable`, `discriminator`, `readOnly`, `writeOnly`, `xml`, `externalDocs`, `example` and `deprecated` as they are not supported by JSON Schema Draft 4. Provide an array of the ones you want to keep (as strings) and they won't be removed.
 
 #### `removeReadOnly` (boolean)
 
@@ -113,7 +114,7 @@ If set to `true`, will remove properties set as `readOnly`. If the property is s
 Similar to `removeReadOnly`, but for `writeOnly` properties.
 
 #### `supportPatternProperties` (boolean)
- 
+
 If set to `true` and `x-patternProperties` property is present, change `x-patternProperties` to `patternProperties` and call `patternPropertiesHandler`. If `patternPropertiesHandler` is not defined, call the default handler. See `patternPropertiesHandler` for more information.
 
 #### `patternPropertiesHandler` (function)
@@ -124,3 +125,63 @@ If the handler is not provided, the default handler is used. If `additionalPrope
 
 See `test/pattern_properties.test.js` for examples how this works.
 
+# Converting OpenAPI parameters
+
+OpenAPI parameters can be converted.
+
+```js
+{
+  name: 'parameter name',
+  in: 'query',
+  schema: {
+    type: 'string',
+    format: 'date'
+  }
+}
+```
+
+would be converted to:
+
+```js
+{
+  type: 'string',
+  format: 'date-time',
+  '$schema': 'http://json-schema.org/draft-04/schema#'
+}
+```
+
+When a parameter has several schemas (one per MIME type) a map is returned instead.
+
+```js
+{
+  name: 'parameter name',
+  in: 'query',
+  content: {
+    'application/javascript': {
+      schema: {
+        type: 'string'
+      }
+    },
+    'text/css': {
+      schema: {
+        type: 'string'
+      }
+    }
+  }
+}
+```
+
+would be converted to:
+
+```js
+{
+  'application/javascript': {
+    type: 'string',
+    '$schema': 'http://json-schema.org/draft-04/schema#'
+  },
+  'text/css': {
+    type: 'string',
+    '$schema': 'http://json-schema.org/draft-04/schema#'
+  }
+}
+```

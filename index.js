@@ -2,8 +2,32 @@ var deepEqual = require('deep-equal');
 var convert = require('./lib/convert');
 
 module.exports = openapiSchemaToJsonSchema;
+module.exports.fromSchema = openapiSchemaToJsonSchema;
+module.exports.fromParameter = openapiParameterToJsonSchema;
 
 function openapiSchemaToJsonSchema(schema, options) {
+	options = resolveOptions(options);
+
+	if (options.cloneSchema) {
+		schema = JSON.parse(JSON.stringify(schema));
+	}
+
+	var jsonSchema = convert.fromSchema(schema, options);
+	return jsonSchema;
+}
+
+function openapiParameterToJsonSchema(parameter, options) {
+	options = resolveOptions(options);
+
+	if (options.cloneSchema) {
+		parameter = JSON.parse(JSON.stringify(parameter));
+	}
+
+	var jsonSchema = convert.fromParameter(parameter, options);
+	return jsonSchema;
+}
+
+function resolveOptions(options) {
 	var notSupported = [
 		'nullable', 'discriminator', 'readOnly',
 		'writeOnly', 'xml', 'externalDocs',
@@ -33,14 +57,7 @@ function openapiSchemaToJsonSchema(schema, options) {
 	options._structs = ['allOf', 'anyOf', 'oneOf', 'not', 'items', 'additionalProperties'];
 	options._notSupported = resolveNotSupported(notSupported, options.keepNotSupported);
 
-	if (options.cloneSchema) {
-		schema = JSON.parse(JSON.stringify(schema));
-	}
-
-	schema = convert.schema(schema, options);
-	schema['$schema'] = 'http://json-schema.org/draft-04/schema#';
-
-	return schema;
+	return options;
 }
 
 function patternPropertiesHandler(schema) {
@@ -78,4 +95,3 @@ function resolveNotSupported(notSupported, toRetain) {
 
 	return notSupported;
 }
-

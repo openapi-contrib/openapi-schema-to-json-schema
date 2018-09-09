@@ -35,13 +35,14 @@ If you need to do the conversion in reverse, checkout [json-schema-to-openapi-sc
 npm install --save openapi-schema-to-json-schema
 ```
 
-## Usage
+## Converting OpenAPI schema
 
 Here's a small example to get the idea:
 
 ```js
 
 var toJsonSchema = require('openapi-schema-to-json-schema');
+// OR: toJsonSchema = require('openapi-schema-to-json-schema').fromSchema;
 
 var schema = {
   type: 'string',
@@ -125,12 +126,14 @@ If the handler is not provided, the default handler is used. If `additionalPrope
 
 See `test/pattern_properties.test.js` for examples how this works.
 
-# Converting OpenAPI parameters
+## Converting OpenAPI parameters
 
-OpenAPI parameters can be converted.
+OpenAPI parameters can be converted:
 
 ```js
-{
+var toJsonSchema = require('openapi-schema-to-json-schema').fromParameters;
+
+var param = {
   name: 'parameter name',
   in: 'query',
   schema: {
@@ -138,9 +141,13 @@ OpenAPI parameters can be converted.
     format: 'date'
   }
 }
+
+var convertedSchema = toJsonSchema(param);
+
+console.log(convertedSchema);
 ```
 
-would be converted to:
+The result is as follows:
 
 ```js
 {

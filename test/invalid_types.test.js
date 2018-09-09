@@ -6,7 +6,7 @@ var test = require('tape')
 test('invalid types', function(assert) {
 	var schema, msg;
 
-	assert.plan(3);
+	assert.plan(4);
 
 	schema = {
 		type: 'dateTime'
@@ -21,6 +21,12 @@ test('invalid types', function(assert) {
 
 	msg = 'foo is invalid type';
 	assert.throws(function() { convert(schema); }, /InvalidTypeError/, msg);
+
+	schema = {
+		type: ['string', null]
+	};
+
+	assert.throws(function() { convert(schema); }, /InvalidTypeError.*["string",null]/, msg);
 
 	schema = getSchema('schema-2-invalid-type.json');
 

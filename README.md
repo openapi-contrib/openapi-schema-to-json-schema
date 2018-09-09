@@ -131,7 +131,7 @@ See `test/pattern_properties.test.js` for examples how this works.
 OpenAPI parameters can be converted:
 
 ```js
-var toJsonSchema = require('openapi-schema-to-json-schema').fromParameters;
+var toJsonSchema = require('openapi-schema-to-json-schema').fromParameter;
 
 var param = {
   name: 'parameter name',
@@ -152,7 +152,7 @@ The result is as follows:
 ```js
 {
   type: 'string',
-  format: 'date-time',
+  format: 'date',
   '$schema': 'http://json-schema.org/draft-04/schema#'
 }
 ```

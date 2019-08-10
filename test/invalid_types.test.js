@@ -35,7 +35,7 @@ test('invalid types', function(assert) {
 });
 
 test('valid types', function(assert) {
-	var types = ['integer', 'number', 'string', 'boolean', 'object', 'array'];
+	var types = ['integer', 'number', 'string', 'boolean', 'object', 'array', 'null'];
 
 	assert.plan(types.length);
 
@@ -54,5 +54,24 @@ test('valid types', function(assert) {
 		};
 
 		assert.deepEqual(result, expected, type + ' ok');
+	});
+
+	test('invalid type allowed when strictMode = false', function(assert) {
+		var schema, result, expected;
+
+		assert.plan(1);
+
+		schema = {
+			type: 'nonsense'
+		};
+
+		result = convert(schema, { strictMode: false });
+
+		expected = {
+			$schema: 'http://json-schema.org/draft-04/schema#',
+			type: 'nonsense',
+		};
+
+		assert.deepEqual(result, expected, ' ok');
 	});
 });

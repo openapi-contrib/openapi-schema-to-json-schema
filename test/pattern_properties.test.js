@@ -173,6 +173,46 @@ test('handling additionalProperties with matching objects', function(assert) {
 	assert.deepEqual(result, expected, 'additionalProperties set to false');
 });
 
+test('handling null x-patternProperties', function(assert) {
+	var schema
+		, result
+		, expected
+  ;
+
+	assert.plan(2);
+
+	schema = {
+		type: 'object',
+		additionalProperties: {
+			type: 'object',
+			properties: {
+				test: {
+					type: 'string'
+				}
+			}
+		},
+		'x-patternProperties': null,
+	};
+
+	result = convert(schema, {supportPatternProperties: true});
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		additionalProperties: {
+			type: 'object',
+			properties: {
+				test: {
+					type: 'string'
+				}
+			}
+		},
+	};
+
+	assert.deepEqual(result['x-patternProperties'], void 0, 'x-patternProperties to be gone');
+	assert.deepEqual(result, expected, 'additionalProperties to be preserved');
+});
+
 test('handling additionalProperties with non-matching objects', function(assert) {
 	var schema
 		, result

@@ -44,6 +44,73 @@ test('properties', function(assert) {
 	assert.deepEqual(result, expected, 'converted');
 });
 
+test('properties value is null', function(assert) {
+	var schema
+		, result
+		, expected
+  ;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		properties: null,
+	};
+
+	result = convert(schema);
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+	};
+
+	assert.deepEqual(result, expected, 'successfully converted');
+});
+
+test('strips malformed properties children', function(assert) {
+	var schema
+		, result
+		, expected
+  ;
+
+	assert.plan(1);
+
+	schema = {
+		type: 'object',
+		required: ['bar'],
+		properties: {
+			foo: {
+				type: 'string',
+				example: '2017-01-01T12:34:56Z'
+			},
+			foobar: 2,
+			bar: {
+				type: 'string',
+				nullable: true
+			},
+			baz: null,
+		}
+	};
+
+	result = convert(schema);
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+		type: 'object',
+		required: ['bar'],
+		properties: {
+			foo: {
+				type: 'string',
+			},
+			bar: {
+				type: ['string', 'null']
+			}
+		}
+	};
+
+	assert.deepEqual(result, expected, 'successfully converted');
+});
+
 test('additionalProperties is false', function(assert) {
 	var schema
 		, result

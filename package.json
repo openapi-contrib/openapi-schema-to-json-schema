@@ -14,7 +14,7 @@
     "deep-equal": "^1.0.1"
   },
   "devDependencies": {
-    "eslint": "^5.0.0-alpha.3",
+    "eslint": "^5.0.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.8.0"
   }

@@ -182,3 +182,25 @@ test('throwing on OpenAPI 3.0 parameters without schemas', function(assert) {
 
 	assert.throws(function() { convert.fromParameter(schema); }, /InvalidInputError/);
 });
+
+test('doesnt throw for parameters without schemas with stricMode disabled', function(assert) {
+	var schema
+		, result
+		, expected
+	;
+
+	assert.plan(1);
+
+	schema = {
+		name: 'parameter name',
+		in: 'cookie',
+	};
+
+  result = convert.fromParameter(schema, { strictMode : false });
+
+	expected = {
+		$schema: 'http://json-schema.org/draft-04/schema#',
+	};
+
+	assert.deepEqual(result, expected, 'parameter description used');
+});

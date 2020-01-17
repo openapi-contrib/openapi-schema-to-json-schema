@@ -1,26 +1,20 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('using exports.fromSchema', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('using exports.fromSchema', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    type: 'string',
+    nullable: true
+  }
 
-	schema = {
-		type: 'string',
-		nullable: true,
-	};
+  var result = convert.fromSchema(schema)
 
-	result = convert.fromSchema(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: ['string', 'null']
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: ['string', 'null'],
-	};
-
-	assert.deepEqual(result, expected, 'converted');
-});
+  assert.deepEqual(result, expected, 'converted')
+})

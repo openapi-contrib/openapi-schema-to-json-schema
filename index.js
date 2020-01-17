@@ -62,10 +62,9 @@ function resolveOptions(options) {
 }
 
 function patternPropertiesHandler(schema) {
-	var pattern
-		, patternsObj = schema.patternProperties
-		, additProps = schema.additionalProperties
-	;
+  var pattern;
+  var patternsObj = schema.patternProperties;
+  var additProps = schema.additionalProperties;
 
 	if (typeof additProps !== 'object') {
 		return schema;
@@ -82,9 +81,8 @@ function patternPropertiesHandler(schema) {
 }
 
 function resolveNotSupported(notSupported, toRetain) {
-	var i = 0
-		, index
-	;
+  var i = 0;
+  var index;
 
 	for (i; i < toRetain.length; i++) {
 		index = notSupported.indexOf(toRetain[i]);

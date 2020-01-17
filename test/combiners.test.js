@@ -1,67 +1,50 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('allOf is null', function(assert) {
-	var schema
-		, result
-		, expected
-  ;
+test('allOf is null', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    allOf: null
+  }
 
-	schema = {
-		allOf: null,
-	};
+  var result = convert(schema)
 
-	result = convert(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#'
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-	};
+  assert.deepEqual(result, expected, 'allOf is removed')
+})
 
-	assert.deepEqual(result, expected, 'allOf is removed');
-});
+test('anyOf is null', function (assert) {
+  assert.plan(1)
 
-test('anyOf is null', function(assert) {
-	var schema
-		, result
-		, expected
-  ;
+  var schema = {
+    anyOf: null
+  }
 
-	assert.plan(1);
+  var result = convert(schema)
 
-	schema = {
-		anyOf: null,
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#'
+  }
 
-	result = convert(schema);
+  assert.deepEqual(result, expected, 'anyOf is removed')
+})
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-	};
+test('oneOf is null', function (assert) {
+  assert.plan(1)
 
-	assert.deepEqual(result, expected, 'anyOf is removed');
-});
+  var schema = {
+    oneOf: null
+  }
 
+  var result = convert(schema)
 
-test('oneOf is null', function(assert) {
-	var schema
-		, result
-		, expected
-  ;
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#'
+  }
 
-	assert.plan(1);
-
-	schema = {
-		oneOf: null,
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-	};
-
-	assert.deepEqual(result, expected, 'oneOf is removed');
-});
+  assert.deepEqual(result, expected, 'oneOf is removed')
+})

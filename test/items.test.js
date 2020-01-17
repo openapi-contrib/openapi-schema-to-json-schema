@@ -1,45 +1,34 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('items', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('items', function (assert) {
+	assert.plan(1)
 
-	assert.plan(1);
-
-	schema = {
+	var schema = {
 		type: 'array',
 		items: {
 			type: 'string',
 			example: '2017-01-01T12:34:56Z'
 		}
-	};
+	}
 
-	result = convert(schema);
+	var result = convert(schema)
 
-	expected = {
+	var expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'array',
 		items: {
 			type: 'string'
 		}
-	};
+	}
 
-	assert.deepEqual(result, expected, 'converted');
-});
+	assert.deepEqual(result, expected, 'converted')
+})
 
-test('handles items with invalid values', function(assert) {
-	var schema
-		, result
-		, expected
-  ;
+test('handles items with invalid values', function (assert) {
+	assert.plan(1)
 
-	assert.plan(1);
-
-	schema = {
+	var schema = {
 		type: 'array',
 		items: [
 			{
@@ -53,13 +42,13 @@ test('handles items with invalid values', function(assert) {
 			'foo',
 			{
 				type: 'array'
-			},
+			}
 		]
-	};
+	}
 
-	result = convert(schema);
+	var result = convert(schema)
 
-	expected = {
+	var expected = {
 		$schema: 'http://json-schema.org/draft-04/schema#',
 		type: 'array',
 		items: [
@@ -71,9 +60,9 @@ test('handles items with invalid values', function(assert) {
 			},
 			{
 				type: 'array'
-			},
+			}
 		]
-	};
+	}
 
-	assert.deepEqual(result, expected, 'converted');
-});
+	assert.deepEqual(result, expected, 'converted')
+})

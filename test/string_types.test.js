@@ -1,161 +1,130 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('plain string is untouched', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('plain string is untouched', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    type: 'string'
+  }
 
-	schema = {
-		type: 'string'
-	};
+  var result = convert(schema)
 
-	result = convert(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string'
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string'
-	};
+  assert.deepEqual(result, expected, 'string untouched')
+})
 
-	assert.deepEqual(result, expected, 'string untouched');
-});
+test('handles date', function (assert) {
+  assert.plan(2)
 
-test('handling date', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var schema = {
+    type: 'string',
+    format: 'date'
+  }
 
-	assert.plan(2);
+  var result = convert(schema)
 
-	schema = {
-		type: 'string',
-		format: 'date'
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    format: 'date'
+  }
 
-	result = convert(schema);
+  assert.deepEqual(result, expected, 'date retained')
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		format: 'date'
-	};
+  schema = {
+    type: 'string',
+    format: 'date'
+  }
 
-	assert.deepEqual(result, expected, 'date retained');
+  result = convert(schema, { dateToDateTime: true })
 
-	schema = {
-		type: 'string',
-		format: 'date'
-	};
+  expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    format: 'date-time'
+  }
 
-	result = convert(schema, {'dateToDateTime': true});
+  assert.deepEqual(result, expected, 'date converted to date-time')
+})
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		format: 'date-time'
-	};
+test('handles byte format', function (assert) {
+  assert.plan(1)
 
-	assert.deepEqual(result, expected, 'date converted to date-time');
-});
+  var schema = {
+    type: 'string',
+    format: 'byte'
+  }
 
-test('handles byte format', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var result = convert(schema)
 
-	assert.plan(1);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    format: 'byte',
+    pattern: '^[\\w\\d+\\/=]*$'
+  }
 
-	schema = {
-		type: 'string',
-		format: 'byte'
-	};
+  assert.deepEqual(result, expected, 'byte converted to pattern')
+})
 
-	result = convert(schema);
+test('retaining custom formats', function (assert) {
+  assert.plan(1)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		format: 'byte',
-		pattern: '^[\\w\\d+\\/=]*$'
-	};
+  var schema = {
+    type: 'string',
+    format: 'custom_email'
+  }
 
-	assert.deepEqual(result, expected, 'byte converted to pattern');
-});
+  var result = convert(schema)
 
-test('retaining custom formats', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    format: 'custom_email'
+  }
 
-	assert.plan(1);
+  assert.deepEqual(result, expected, 'custom format retained')
+})
 
-	schema = {
-		type: 'string',
-		format: 'custom_email'
-	};
+test('retain password format', function (assert) {
+  assert.plan(1)
 
-	result = convert(schema);
+  var schema = {
+    type: 'string',
+    format: 'password'
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		format: 'custom_email'
-	};
+  var result = convert(schema)
 
-	assert.deepEqual(result, expected, 'custom format retained');
-});
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    format: 'password'
+  }
 
-test('retain password format', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  assert.deepEqual(result, expected, 'password format retained')
+})
 
-	assert.plan(1);
+test('retain binary format', function (assert) {
+  assert.plan(1)
 
-	schema = {
-		type: 'string',
-		format: 'password'
-	};
+  var schema = {
+    type: 'string',
+    format: 'binary'
+  }
 
-	result = convert(schema);
+  var result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		format: 'password'
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    format: 'binary'
+  }
 
-	assert.deepEqual(result, expected, 'password format retained');
-});
-
-test('retain binary format', function(assert) {
-	var schema
-		, result
-		, expected
-	;
-
-	assert.plan(1);
-
-	schema = {
-		type: 'string',
-		format: 'binary'
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		format: 'binary'
-	};
-
-	assert.deepEqual(result, expected, 'binary format retained');
-});
+  assert.deepEqual(result, expected, 'binary format retained')
+})

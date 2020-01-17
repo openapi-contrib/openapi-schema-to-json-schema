@@ -1,81 +1,74 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('handles nullable without enum', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('handles nullable without enum', function (assert) {
+  var schema, result, expected;
 
-	assert.plan(2);
+  assert.plan(2)
 
-	schema = {
-		type: 'string',
-		nullable: true
-	};
+  schema = {
+    type: 'string',
+    nullable: true
+  }
 
-	result = convert(schema);
+  result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: ['string', 'null'],
-	};
+  expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: ['string', 'null']
+  }
 
-	assert.deepEqual(result, expected, 'nullable converted');
+  assert.deepEqual(result, expected, 'nullable converted')
 
-	schema = {
-		type: 'string',
-		nullable: false,
-	};
+  schema = {
+    type: 'string',
+    nullable: false
+  }
 
-	result = convert(schema);
+  result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string'
-	};
+  expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string'
+  }
 
-	assert.deepEqual(result, expected, 'nullable removed, type untouched');
-});
+  assert.deepEqual(result, expected, 'nullable removed, type untouched')
+})
 
-test('handles nullable with enum', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('handles nullable with enum', function (assert) {
+  var schema, result, expected;
 
-	assert.plan(2);
+  assert.plan(2)
 
-	schema = {
-		type: 'string',
-		enum: ['a', 'b'],
-		nullable: true
-	};
+  schema = {
+    type: 'string',
+    enum: ['a', 'b'],
+    nullable: true
+  }
 
-	result = convert(schema);
+  result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: ['string', 'null'],
-		enum: ['a', 'b', null]
-	};
+  expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: ['string', 'null'],
+    enum: ['a', 'b', null]
+  }
 
-	assert.deepEqual(result, expected, 'nullable converted');
+  assert.deepEqual(result, expected, 'nullable converted')
 
-	schema = {
-		type: 'string',
-		enum: ['a', 'b'],
-		nullable: false,
-	};
+  schema = {
+    type: 'string',
+    enum: ['a', 'b'],
+    nullable: false
+  }
 
-	result = convert(schema);
+  result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string',
-		enum: ['a', 'b'],
-	};
+  expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string',
+    enum: ['a', 'b']
+  }
 
-	assert.deepEqual(result, expected, 'nullable removed, type untouched');
-});
+  assert.deepEqual(result, expected, 'nullable removed, type untouched')
+})

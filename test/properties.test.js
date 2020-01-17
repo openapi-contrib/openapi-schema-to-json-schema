@@ -1,231 +1,200 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('properties', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('properties', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    type: 'object',
+    required: ['bar'],
+    properties: {
+      foo: {
+        type: 'string',
+        example: '2017-01-01T12:34:56Z'
+      },
+      bar: {
+        type: 'string',
+        nullable: true
+      }
+    }
+  }
 
-	schema = {
-		type: 'object',
-		required: ['bar'],
-		properties: {
-			foo: {
-				type: 'string',
-				example: '2017-01-01T12:34:56Z'
-			},
-			bar: {
-				type: 'string',
-				nullable: true
-			}
-		}
-	};
+  var result = convert(schema)
 
-	result = convert(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    required: ['bar'],
+    properties: {
+      foo: {
+        type: 'string'
+      },
+      bar: {
+        type: ['string', 'null']
+      }
+    }
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		required: ['bar'],
-		properties: {
-			foo: {
-				type: 'string',
-			},
-			bar: {
-				type: ['string', 'null']
-			}
-		}
-	};
+  assert.deepEqual(result, expected, 'converted')
+})
 
-	assert.deepEqual(result, expected, 'converted');
-});
+test('properties value is null', function (assert) {
+  assert.plan(1)
 
-test('properties value is null', function(assert) {
-	var schema
-		, result
-		, expected
-  ;
+  var schema = {
+    type: 'object',
+    properties: null
+  }
 
-	assert.plan(1);
+  var result = convert(schema)
 
-	schema = {
-		type: 'object',
-		properties: null,
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object'
+  }
 
-	result = convert(schema);
+  assert.deepEqual(result, expected, 'successfully converted')
+})
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-	};
+test('strips malformed properties children', function (assert) {
+  assert.plan(1)
 
-	assert.deepEqual(result, expected, 'successfully converted');
-});
+  var schema = {
+    type: 'object',
+    required: ['bar'],
+    properties: {
+      foo: {
+        type: 'string',
+        example: '2017-01-01T12:34:56Z'
+      },
+      foobar: 2,
+      bar: {
+        type: 'string',
+        nullable: true
+      },
+      baz: null
+    }
+  }
 
-test('strips malformed properties children', function(assert) {
-	var schema
-		, result
-		, expected
-  ;
+  var result = convert(schema)
 
-	assert.plan(1);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    required: ['bar'],
+    properties: {
+      foo: {
+        type: 'string'
+      },
+      bar: {
+        type: ['string', 'null']
+      }
+    }
+  }
 
-	schema = {
-		type: 'object',
-		required: ['bar'],
-		properties: {
-			foo: {
-				type: 'string',
-				example: '2017-01-01T12:34:56Z'
-			},
-			foobar: 2,
-			bar: {
-				type: 'string',
-				nullable: true
-			},
-			baz: null,
-		}
-	};
+  assert.deepEqual(result, expected, 'successfully converted')
+})
 
-	result = convert(schema);
+test('additionalProperties is false', function (assert) {
+  assert.plan(1)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		required: ['bar'],
-		properties: {
-			foo: {
-				type: 'string',
-			},
-			bar: {
-				type: ['string', 'null']
-			}
-		}
-	};
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string',
+        example: '2017-01-01T12:34:56Z'
+      }
+    },
+    additionalProperties: false
+  }
 
-	assert.deepEqual(result, expected, 'successfully converted');
-});
+  var result = convert(schema)
 
-test('additionalProperties is false', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    },
+    additionalProperties: false
+  }
 
-	assert.plan(1);
+  assert.deepEqual(result, expected, 'properties converted')
+})
 
-	schema = {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				example: '2017-01-01T12:34:56Z'
-			}
-		},
-		additionalProperties: false
-	};
+test('additionalProperties is true', function (assert) {
+  assert.plan(1)
 
-	result = convert(schema);
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string',
+        example: '2017-01-01T12:34:56Z'
+      }
+    },
+    additionalProperties: true
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-			}
-		},
-		additionalProperties: false
-	};
+  var result = convert(schema)
 
-	assert.deepEqual(result, expected, 'properties converted');
-});
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    },
+    additionalProperties: true
+  }
 
-test('additionalProperties is true', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  assert.deepEqual(result, expected, 'properties converted')
+})
 
-	assert.plan(1);
+test('additionalProperties is an object', function (assert) {
+  assert.plan(1)
 
-	schema = {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				example: '2017-01-01T12:34:56Z'
-			}
-		},
-		additionalProperties: true
-	};
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string',
+        example: '2017-01-01T12:34:56Z'
+      }
+    },
+    additionalProperties: {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string'
+        }
+      }
+    }
+  }
 
-	result = convert(schema);
+  var result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-			}
-		},
-		additionalProperties: true
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    },
+    additionalProperties: {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string'
+        }
+      }
+    }
+  }
 
-	assert.deepEqual(result, expected, 'properties converted');
-});
-
-test('additionalProperties is an object', function(assert) {
-	var schema
-		, result
-		, expected
-	;
-
-	assert.plan(1);
-
-	schema = {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				example: '2017-01-01T12:34:56Z'
-			}
-		},
-		additionalProperties: {
-			type: 'object',
-			properties: {
-				foo: {
-					type: 'string'
-				}
-			}
-		}
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-			}
-		},
-		additionalProperties: {
-			type: 'object',
-			properties: {
-				foo: {
-					type: 'string'
-				}
-			}
-		}
-	};
-
-	assert.deepEqual(result, expected, 'properties and additionalProperties converted');
-});
+  assert.deepEqual(result, expected, 'properties and additionalProperties converted')
+})

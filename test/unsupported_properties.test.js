@@ -1,301 +1,260 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('remove discriminator by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('remove discriminator by default', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    oneOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'string'
+          }
+        }
+      },
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'string'
+          }
+        }
+      }
+    ],
+    discriminator: {
+      propertyName: 'foo'
+    }
+  }
 
-	schema = {
-		oneOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'string'
-					}
-				}
-			},
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'string'
-					}
-				}
-			}
-		],
-		discriminator: {
-			propertyName: 'foo'
-		}
-	};
+  var result = convert(schema)
 
-	result = convert(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    oneOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'string'
+          }
+        }
+      },
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'string'
+          }
+        }
+      }
+    ]
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		oneOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'string'
-					}
-				}
-			},
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'string'
-					}
-				}
-			}
-		],
-	};
+  assert.deepEqual(result, expected, 'discriminator removed')
+})
 
-	assert.deepEqual(result, expected, 'discriminator removed');
-});
+test('remove readOnly by default', function (assert) {
+  assert.plan(1)
 
-test('remove readOnly by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var schema = {
+    type: 'object',
+    properties: {
+      readOnly: {
+        type: 'string',
+        readOnly: true
+      }
+    }
+  }
 
-	assert.plan(1);
+  var result = convert(schema)
 
-	schema = {
-		type: 'object',
-		properties: {
-			readOnly: {
-				type: 'string',
-				readOnly: true
-			}
-		}
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      readOnly: {
+        type: 'string'
+      }
+    }
+  }
+  assert.deepEqual(result, expected, 'readOnly removed')
+})
 
-	result = convert(schema);
+test('remove writeOnly by default', function (assert) {
+  assert.plan(1)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			readOnly: {
-				type: 'string'
-			}
-		}
-	};
-	assert.deepEqual(result, expected, 'readOnly removed');
-});
+  var schema = {
+    type: 'object',
+    properties: {
+      test: {
+        type: 'string',
+        writeOnly: true
+      }
+    }
+  }
 
-test('remove writeOnly by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var result = convert(schema)
 
-	assert.plan(1);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      test: {
+        type: 'string'
+      }
+    }
+  }
 
-	schema = {
-		type: 'object',
-		properties: {
-			test: {
-				type: 'string',
-				writeOnly: true
-			}
-		}
-	};
+  assert.deepEqual(result, expected, 'writeOnly removed')
+})
 
-	result = convert(schema);
+test('remove xml by default', function (assert) {
+  assert.plan(1)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			test: {
-				type: 'string'
-			}
-		}
-	};
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string',
+        xml: {
+          attribute: true
+        }
+      }
+    }
+  }
 
-	assert.deepEqual(result, expected, 'writeOnly removed');
-});
+  var result = convert(schema)
 
-test('remove xml by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    }
+  }
 
-	assert.plan(1);
+  assert.deepEqual(result, expected, 'xml removed')
+})
 
-	schema = {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string',
-				xml: {
-					attribute: true
-				}
-			}
-		}
-	};
+test('remove externalDocs by default', function (assert) {
+  assert.plan(1)
 
-	result = convert(schema);
+  var schema = {
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    },
+    externalDocs: {
+      url: 'http://foo.bar'
+    }
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string'
-			}
-		}
-	};
+  var result = convert(schema)
 
-	assert.deepEqual(result, expected, 'xml removed');
-});
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      foo: {
+        type: 'string'
+      }
+    }
+  }
 
-test('remove externalDocs by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  assert.deepEqual(result, expected, 'externalDocs removed')
+})
 
-	assert.plan(1);
+test('remove example by default', function (assert) {
+  assert.plan(1)
 
-	schema = {
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string'
-			}
-		},
-		externalDocs: {
-			url: 'http://foo.bar'
-		}
-	};
+  var schema = {
+    type: 'string',
+    example: 'foo'
+  }
 
-	result = convert(schema);
+  var result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			foo: {
-				type: 'string'
-			}
-		}
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string'
+  }
 
-	assert.deepEqual(result, expected, 'externalDocs removed');
-});
+  assert.deepEqual(result, expected, 'example removed')
+})
 
-test('remove example by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('remove deprecated by default', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    type: 'string',
+    deprecated: true
+  }
 
-	schema = {
-		type: 'string',
-		example: 'foo'
-	};
+  var result = convert(schema)
 
-	result = convert(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'string'
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string'
-	};
+  assert.deepEqual(result, expected, 'deprecated removed')
+})
 
-	assert.deepEqual(result, expected, 'example removed');
-});
+test('retaining fields', function (assert) {
+  assert.plan(1)
 
-test('remove deprecated by default', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var schema = {
+    type: 'object',
+    properties: {
+      readOnly: {
+        type: 'string',
+        readOnly: true,
+        example: 'foo'
+      },
+      anotherProp: {
+        type: 'object',
+        properties: {
+          writeOnly: {
+            type: 'string',
+            writeOnly: true
+          }
+        }
+      }
+    },
+    discriminator: 'bar'
+  }
 
-	assert.plan(1);
+  var result = convert(schema, { keepNotSupported: ['readOnly', 'discriminator'] })
 
-	schema = {
-		type: 'string',
-		deprecated: true
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      readOnly: {
+        type: 'string',
+        readOnly: true
+      },
+      anotherProp: {
+        type: 'object',
+        properties: {
+          writeOnly: {
+            type: 'string'
+          }
+        }
+      }
+    },
+    discriminator: 'bar'
+  }
 
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'string'
-	};
-
-	assert.deepEqual(result, expected, 'deprecated removed');
-});
-
-test('retaining fields', function(assert) {
-	var schema
-		, result
-		, expected
-	;
-
-	assert.plan(1);
-
-	schema = {
-		type: 'object',
-		properties: {
-			readOnly: {
-				type: 'string',
-				readOnly: true,
-				example: 'foo'
-			},
-			anotherProp: {
-				type: 'object',
-				properties: {
-					writeOnly: {
-						type: 'string',
-						writeOnly: true
-					}
-				}
-			}
-		},
-		discriminator: 'bar'
-	};
-
-	result = convert(schema, { keepNotSupported: ['readOnly', 'discriminator'] });
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			readOnly: {
-				type: 'string',
-				readOnly: true,
-			},
-			anotherProp: {
-				type: 'object',
-				properties: {
-					writeOnly: {
-						type: 'string',
-					}
-				}
-			}
-		},
-		discriminator: 'bar'
-	};
-
-	assert.deepEqual(result, expected, 'example and writeOnly removed');
-});
+  assert.deepEqual(result, expected, 'example and writeOnly removed')
+})

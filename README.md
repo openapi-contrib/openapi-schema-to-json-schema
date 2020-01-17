@@ -6,33 +6,29 @@ Currently converts from [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specificati
 
 ## Why?
 
-OpenAPI is a specification for describing RESTful APIs. OpenAPI 3.0 allows us to describe the structures of request and response payloads in a detailed manner. This would, theoretically, mean that we should be able to automatically validate request and response payloads. However, as of writing there aren't many validators around.
+OpenAPI is a specification for describing RESTful APIs. OpenAPI v3.0 allows us to describe the structures of request and response payloads in a detailed manner. This would, theoretically, mean that we should be able to automatically validate request and response payloads. However, as of writing there aren't many validators around.
 
-The good news is that there are many validators for JSON Schema for different languages. The bad news is that OpenAPI 3.0 is not entirely compatible with JSON Schema. The Schema Object of OpenAPI 3.0 is an extended subset of JSON Schema Specification Wright Draft 00 with some differences.
-
-The purpose of this project is to fill the gap by doing the conversion between these two formats.
+The good news is that there are many validators for JSON Schema for different languages. The bad news is that OpenAPI v3.0 is [not entirely compatible with JSON Schema](https://stoplight.io/blog/openapi-json-schema/). The Schema Object of OpenAPI v3.0 is an extended subset of JSON Schema Specification Wright Draft 00 with some differences. This will be resolved in OpenAPI v3.1, but until then... this tool will fill that gap.
 
 There is also a [CLI tool](https://github.com/mikunn/openapi2schema) for creating a JSON of schemas from the whole API specification.
 
-If you need to do the conversion in reverse, checkout [json-schema-to-openapi-schema](https://github.com/philsturgeon/json-schema-to-openapi-schema).
+If you need to do the conversion in reverse, checkout [json-schema-to-openapi-schema](https://github.com/openapi-contrib/json-schema-to-openapi-schema).
 
 ## Features
 
-* converts OpenAPI 3.0 Schema Object to JSON Schema Draft 4
-* converts OpenAPI 3.0 Parameter Object to JSON Schema Draft 4
-* ~~converts [common named data types](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#data-types) to `type` and `format`~~ *(removed in version 2.0.0)*
-  * ~~for example `type: "dateTime"` becomes `type: "string"` with `format: "date-time"`~~
+* converts OpenAPI v3.0 Schema Object to JSON Schema Draft 4
+* converts OpenAPI v3.0 Parameter Object to JSON Schema Draft 4
 * deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
 * supports deep structures with nested `allOf`s etc.
 * removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
 * optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
-**NOTE**: `$ref`s are not dereferenced. Use a dereferencer such as [json-schema-ref-parser](https://www.npmjs.com/package/json-schema-ref-parser) prior to using this package.
+**NOTE**: `$ref`s are not handled in any way, so please use a resolver such as [json-ref-resolver](https://github.com/stoplightio/json-ref-resolver) prior to using this package.
 
 ## Installation
 
 ```
-npm install --save openapi-schema-to-json-schema
+npm install --save @openapi-contrib/openapi-schema-to-json-schema
 ```
 
 ## Converting OpenAPI schema
@@ -41,8 +37,7 @@ Here's a small example to get the idea:
 
 ```js
 
-var toJsonSchema = require('openapi-schema-to-json-schema');
-// OR: toJsonSchema = require('openapi-schema-to-json-schema').fromSchema;
+var toJsonSchema = require('@openapi-contrib/openapi-schema-to-json-schema');
 
 var schema = {
   type: 'string',
@@ -87,7 +82,7 @@ var schema = {
   format: 'date'
 };
 
-var convertedSchema = toJsonSchema(schema, {dateToDateTime: true});
+var convertedSchema = toJsonSchema(schema, { dateToDateTime: true });
 
 console.log(convertedSchema);
 ```

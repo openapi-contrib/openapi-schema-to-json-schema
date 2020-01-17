@@ -1,346 +1,315 @@
-var test = require('tape')
-	, convert = require('../')
-;
+var test = require('tape');
+var convert = require('../');
 
-test('iterates allOfs', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('iterates allOfs', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = {
+    allOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'integer'
+          }
+        }
+      },
+      {
+        allOf: [
+          {
+            type: 'number'
+          }
+        ]
+      }
+    ]
+  }
 
-	schema = {
-		allOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'integer'
-					}
-				}
-			},
-			{
-				allOf: [
-					{
-						type: 'number'
-					}
-				]
-			}
-		]
-	};
+  var result = convert(schema)
 
-	result = convert(schema);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    allOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'integer'
+          }
+        }
+      },
+      {
+        allOf: [
+          {
+            type: 'number'
+          }
+        ]
+      }
+    ]
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		allOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'integer'
-					}
-				}
-			},
-			{
-				allOf: [
-					{
-						type: 'number'
-					}
-				]
-			}
-		]
-	};
+  assert.deepEqual(result, expected, 'iterated allOfs')
+})
 
-	assert.deepEqual(result, expected, 'iterated allOfs');
-});
+test('iterates anyOfs', function (assert) {
+  assert.plan(1)
 
-test('iterates anyOfs', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var schema = {
+    anyOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'integer'
+          }
+        }
+      },
+      {
+        anyOf: [
+          {
+            type: 'object',
+            properties: {
+              bar: {
+                type: 'number'
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
 
-	assert.plan(1);
+  var result = convert(schema)
 
-	schema = {
-		anyOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'integer'
-					}
-				}
-			},
-			{
-				anyOf: [
-					{
-						type: 'object',
-						properties: {
-							bar: {
-								type: 'number'
-							}
-						}
-					}
-				]
-			}
-		]
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    anyOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'integer'
+          }
+        }
+      },
+      {
+        anyOf: [
+          {
+            type: 'object',
+            properties: {
+              bar: {
+                type: 'number'
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
 
-	result = convert(schema);
+  assert.deepEqual(result, expected, 'anyOfs iterated')
+})
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		anyOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'integer',
-					}
-				}
-			},
-			{
-				anyOf: [
-					{
-						type: 'object',
-						properties: {
-							bar: {
-								type: 'number',
-							}
-						}
-					}
-				]
-			}
-		]
-	};
+test('iterates oneOfs', function (assert) {
+  assert.plan(1)
 
-	assert.deepEqual(result, expected, 'anyOfs iterated');
-});
+  var schema = {
+    oneOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'integer'
+          }
+        }
+      },
+      {
+        oneOf: [
+          {
+            type: 'object',
+            properties: {
+              bar: {
+                type: 'number'
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
 
-test('iterates oneOfs', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var result = convert(schema)
 
-	assert.plan(1);
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    oneOf: [
+      {
+        type: 'object',
+        required: ['foo'],
+        properties: {
+          foo: {
+            type: 'integer'
+          }
+        }
+      },
+      {
+        oneOf: [
+          {
+            type: 'object',
+            properties: {
+              bar: {
+                type: 'number'
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
 
-	schema = {
-		oneOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'integer'
-					}
-				}
-			},
-			{
-				oneOf: [
-					{
-						type: 'object',
-						properties: {
-							bar: {
-								type: 'number'
-							}
-						}
-					}
-				]
-			}
-		]
-	};
+  assert.deepEqual(result, expected, 'oneOfs iterated')
+})
 
-	result = convert(schema);
+test('converts types in not', function (assert) {
+  assert.plan(1)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		oneOf: [
-			{
-				type: 'object',
-				required: ['foo'],
-				properties: {
-					foo: {
-						type: 'integer',
-					}
-				}
-			},
-			{
-				oneOf: [
-					{
-						type: 'object',
-						properties: {
-							bar: {
-								type: 'number',
-							}
-						}
-					}
-				]
-			}
-		]
-	};
+  var schema = {
+    type: 'object',
+    properties: {
+      not: {
+        type: 'string',
+        minLength: 8
+      }
+    }
+  }
 
-	assert.deepEqual(result, expected, 'oneOfs iterated');
-});
+  var result = convert(schema)
 
-test('converts types in not', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    properties: {
+      not: {
+        type: 'string',
+        minLength: 8
+      }
+    }
+  }
 
-	assert.plan(1);
+  assert.deepEqual(result, expected, 'not handled')
+})
 
-	schema = {
-		type: 'object',
-		properties: {
-			not: {
-				type: 'string',
-				minLength: 8
-			}
-		}
-	};
+test('converts types in not', function (assert) {
+  assert.plan(1)
 
-	result = convert(schema);
+  var schema = {
+    not: {
+      type: 'string',
+      minLength: 8
+    }
+  }
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		type: 'object',
-		properties: {
-			not: {
-				type: 'string',
-				minLength: 8
-			}
-		}
-	};
+  var result = convert(schema)
 
-	assert.deepEqual(result, expected, 'not handled');
-});
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    not: {
+      type: 'string',
+      minLength: 8
+    }
+  }
 
-test('converts types in not', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  assert.deepEqual(result, expected, 'not handled')
+})
 
-	assert.plan(1);
+test('nested combination keywords', function (assert) {
+  assert.plan(1)
 
-	schema = {
-		not: {
-			type: 'string',
-			minLength: 8
-		}
-	};
+  var schema = {
+    anyOf: [
+      {
+        allOf: [
+          {
+            type: 'object',
+            properties: {
+              foo: {
+                type: 'string',
+                nullable: true
+              }
+            }
+          },
+          {
+            type: 'object',
+            properties: {
+              bar: {
+                type: 'integer',
+                nullable: true
+              }
+            }
+          }
+        ]
+      },
+      {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'string'
+          }
+        }
+      },
+      {
+        not: {
+          type: 'string',
+          example: 'foobar'
+        }
+      }
+    ]
+  }
 
-	result = convert(schema);
+  var result = convert(schema)
 
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		not: {
-			type: 'string',
-			minLength: 8
-		}
-	};
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    anyOf: [
+      {
+        allOf: [
+          {
+            type: 'object',
+            properties: {
+              foo: {
+                type: ['string', 'null']
+              }
+            }
+          },
+          {
+            type: 'object',
+            properties: {
+              bar: {
+                type: ['integer', 'null']
+              }
+            }
+          }
+        ]
+      },
+      {
+        type: 'object',
+        properties: {
+          foo: {
+            type: 'string'
+          }
+        }
+      },
+      {
+        not: {
+          type: 'string'
+        }
+      }
+    ]
+  }
 
-	assert.deepEqual(result, expected, 'not handled');
-});
-
-test('nested combination keywords', function(assert) {
-	var schema
-		, result
-		, expected
-	;
-
-	assert.plan(1);
-
-	schema = {
-		anyOf: [
-			{
-				allOf: [
-					{
-						type: 'object',
-						properties: {
-							foo: {
-								type: 'string',
-								nullable: true
-							}
-						}
-					},
-					{
-						type: 'object',
-						properties: {
-							bar: {
-								type: 'integer',
-								nullable: true
-							}
-						}
-					}
-				]
-			},
-			{
-				type: 'object',
-				properties: {
-					foo: {
-						type: 'string',
-					}
-				}
-			},
-			{
-				not: {
-					type: 'string',
-					example: 'foobar'
-				}
-			}
-		]
-	};
-
-	result = convert(schema);
-
-	expected = {
-		$schema: 'http://json-schema.org/draft-04/schema#',
-		anyOf: [
-			{
-				allOf: [
-					{
-						type: 'object',
-						properties: {
-							foo: {
-								type: ['string', 'null']
-							}
-						}
-					},
-					{
-						type: 'object',
-						properties: {
-							bar: {
-								type: ['integer', 'null']
-							}
-						}
-					}
-				]
-			},
-			{
-				type: 'object',
-				properties: {
-					foo: {
-						type: 'string',
-					}
-				}
-			},
-			{
-				not: {
-					type: 'string',
-				}
-			}
-		]
-	};
-
-	assert.deepEqual(result, expected, 'nested combination keywords');
-});
+  assert.deepEqual(result, expected, 'nested combination keywords')
+})

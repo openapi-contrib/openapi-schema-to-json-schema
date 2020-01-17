@@ -1,9 +1,12 @@
+root = true
+
 [*]
 charset = utf-8
-end_of_line = lf
-insert_final_newline = true
+
+[*.{ts,js,yaml,scenario,md}]
 indent_style = space
-indent_size = tab
-max_line_length = 80
+indent_size = 2
+
+[*.{ts,js}]
 trim_trailing_whitespace = true
 insert_final_newline = true

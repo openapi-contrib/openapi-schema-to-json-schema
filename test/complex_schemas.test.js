@@ -1,36 +1,24 @@
-var test = require('tape')
-	, getSchema = require('./helpers').getSchema
-	, convert = require('../')
-;
+var test = require('tape');
+var getSchema = require('./helpers').getSchema;
+var convert = require('../');
 
-test('complex schema', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+test('complex schema', function (assert) {
+  assert.plan(1)
 
-	assert.plan(1);
+  var schema = getSchema('schema-1.json')
+  var result = convert(schema)
+  var expected = getSchema('schema-1-expected.json')
 
-	schema = getSchema('schema-1.json');
-	result = convert(schema);
-	expected = getSchema('schema-1-expected.json');
+  assert.deepEqual(result, expected, 'converted')
+})
 
-	assert.deepEqual(result, expected, 'converted');
-});
+test('converting complex schema in place', function (assert) {
+  assert.plan(2)
 
-test('converting complex schema in place', function(assert) {
-	var schema
-		, result
-		, expected
-	;
+  var schema = getSchema('schema-1.json')
+  var result = convert(schema, { cloneSchema: false })
+  var expected = getSchema('schema-1-expected.json')
 
-	assert.plan(2);
-
-	schema = getSchema('schema-1.json');
-	result = convert(schema, {cloneSchema: false});
-	expected = getSchema('schema-1-expected.json');
-
-	assert.equal(schema, result, 'changed schema in place');
-	assert.deepEqual(result, expected, 'converted');
-});
-
+  assert.equal(schema, result, 'changed schema in place')
+  assert.deepEqual(result, expected, 'converted')
+})

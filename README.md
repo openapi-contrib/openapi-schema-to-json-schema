@@ -126,7 +126,7 @@ See `test/pattern_properties.test.js` for examples how this works.
 OpenAPI parameters can be converted:
 
 ```js
-var toJsonSchema = require('openapi-schema-to-json-schema').fromParameter;
+var toJsonSchema = require('@openapi-contrib/openapi-schema-to-json-schema').fromParameter;
 
 var param = {
   name: 'parameter name',
@@ -187,3 +187,10 @@ would be converted to:
   }
 }
 ```
+
+## Thanks
+
+- [mikunn][] for origionally creating this package.
+- [All Contributors][link-contributors]
+
+[link-contributors]: https://github.com/openapi-contrib/openapi-schema-to-json-schema/graphs/contributors

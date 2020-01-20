@@ -190,7 +190,10 @@ would be converted to:
 
 ## Thanks
 
-- [mikunn][] for origionally creating this package.
+- [Stoplight][] for donating time and effort to this project, and many more.
+- [mikunn][] for originally creating this package.
 - [All Contributors][link-contributors]
 
+[Stoplight]: https://stoplight.io/
+[mikunn]: https://github.com/mikunn
 [link-contributors]: https://github.com/openapi-contrib/openapi-schema-to-json-schema/graphs/contributors

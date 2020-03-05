@@ -88,7 +88,7 @@ test('removing writeOnly prop & required', function (assert) {
       },
       prop4: {
         type: 'string'
-      },
+      }
     }
   }
 
@@ -128,7 +128,7 @@ test('removing readOnly from required', function (assert) {
       },
       prop4: {
         type: 'string'
-      },
+      }
     }
   }
 

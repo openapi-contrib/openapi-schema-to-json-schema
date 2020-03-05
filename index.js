@@ -1,5 +1,5 @@
-var deepEqual = require('fast-deep-equal');
-var convert = require('./lib/convert');
+const deepEqual = require('fast-deep-equal');
+const convert = require('./lib/convert');
 
 module.exports = openapiSchemaToJsonSchema;
 module.exports.fromSchema = openapiSchemaToJsonSchema;
@@ -12,8 +12,7 @@ function openapiSchemaToJsonSchema(schema, options) {
 		schema = JSON.parse(JSON.stringify(schema));
 	}
 
-	var jsonSchema = convert.fromSchema(schema, options);
-	return jsonSchema;
+  return convert.fromSchema(schema, options);
 }
 
 function openapiParameterToJsonSchema(parameter, options) {
@@ -23,18 +22,13 @@ function openapiParameterToJsonSchema(parameter, options) {
 		parameter = JSON.parse(JSON.stringify(parameter));
 	}
 
-	var jsonSchema = convert.fromParameter(parameter, options);
-	return jsonSchema;
+  return convert.fromParameter(parameter, options);
 }
 
 function resolveOptions(options) {
-	var notSupported = [
-		'nullable', 'discriminator', 'readOnly',
-		'writeOnly', 'xml', 'externalDocs',
-		'example', 'deprecated'
-	];
+  const notSupported = ['nullable', 'discriminator', 'readOnly', 'writeOnly', 'xml', 'externalDocs', 'example', 'deprecated'];
 
-	options = options || {};
+  options = options || {};
 	options.dateToDateTime = options.dateToDateTime || false;
 	options.cloneSchema = options.cloneSchema == false ? false : true;
 	options.supportPatternProperties = options.supportPatternProperties || false;
@@ -62,11 +56,11 @@ function resolveOptions(options) {
 }
 
 function patternPropertiesHandler(schema) {
-  var pattern;
-  var patternsObj = schema.patternProperties;
-  var additProps = schema.additionalProperties;
+  let pattern;
+  const patternsObj = schema.patternProperties;
+  const additProps = schema.additionalProperties;
 
-	if (typeof additProps !== 'object') {
+  if (typeof additProps !== 'object') {
 		return schema;
 	}
 
@@ -81,10 +75,9 @@ function patternPropertiesHandler(schema) {
 }
 
 function resolveNotSupported(notSupported, toRetain) {
-  var i = 0;
-  var index;
+  let index;
 
-	for (i; i < toRetain.length; i++) {
+  for (let i = 0; i < toRetain.length; i++) {
 		index = notSupported.indexOf(toRetain[i]);
 
 		if (index >= 0) {

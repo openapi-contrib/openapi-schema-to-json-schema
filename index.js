@@ -1,4 +1,4 @@
-var deepEqual = require('deep-equal');
+var deepEqual = require('fast-deep-equal');
 var convert = require('./lib/convert');
 
 module.exports = openapiSchemaToJsonSchema;

@@ -30,10 +30,10 @@ function resolveOptions(options) {
 
   options = options || {};
 	options.dateToDateTime = options.dateToDateTime || false;
-	options.cloneSchema = options.cloneSchema == false ? false : true;
+	options.cloneSchema = options.cloneSchema != false;
 	options.supportPatternProperties = options.supportPatternProperties || false;
 	options.keepNotSupported = options.keepNotSupported || [];
-	options.strictMode = options.strictMode == false ? false : true;
+	options.strictMode = options.strictMode != false;
 
 	if (typeof options.patternPropertiesHandler !== 'function') {
 		options.patternPropertiesHandler = patternPropertiesHandler;

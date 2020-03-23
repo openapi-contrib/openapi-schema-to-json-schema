@@ -1,6 +1,6 @@
 {
   "name": "@openapi-contrib/openapi-schema-to-json-schema",
-  "version": "3.0.0",
+  "version": "0.0.0-development",
   "description": "Converts OpenAPI Schema Object to JSON Schema",
   "main": "index.js",
   "scripts": {

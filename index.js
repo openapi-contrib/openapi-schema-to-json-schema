@@ -39,7 +39,8 @@ function resolveOptions(options) {
 	options.cloneSchema = options.cloneSchema == false ? false : true;
 	options.supportPatternProperties = options.supportPatternProperties || false;
 	options.keepNotSupported = options.keepNotSupported || [];
-	options.strictMode = options.strictMode == false ? false : true;
+  options.strictMode = options.strictMode == false ? false : true;
+  options.definitionKeywords = options.definitionKeywords || [];
 
 	if (typeof options.patternPropertiesHandler !== 'function') {
 		options.patternPropertiesHandler = patternPropertiesHandler;

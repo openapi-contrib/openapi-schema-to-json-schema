@@ -1,5 +1,6 @@
 var deepEqual = require('fast-deep-equal');
 var convert = require('./lib/convert');
+var clone = require('clone');
 
 module.exports = openapiSchemaToJsonSchema;
 module.exports.fromSchema = openapiSchemaToJsonSchema;
@@ -9,7 +10,7 @@ function openapiSchemaToJsonSchema(schema, options) {
 	options = resolveOptions(options);
 
 	if (options.cloneSchema) {
-		schema = JSON.parse(JSON.stringify(schema));
+		schema = clone(schema);
 	}
 
 	var jsonSchema = convert.fromSchema(schema, options);
@@ -20,7 +21,7 @@ function openapiParameterToJsonSchema(parameter, options) {
 	options = resolveOptions(options);
 
 	if (options.cloneSchema) {
-		parameter = JSON.parse(JSON.stringify(parameter));
+		parameter = clone(parameter);
 	}
 
 	var jsonSchema = convert.fromParameter(parameter, options);
@@ -62,9 +63,9 @@ function resolveOptions(options) {
 }
 
 function patternPropertiesHandler(schema) {
-  var pattern;
-  var patternsObj = schema.patternProperties;
-  var additProps = schema.additionalProperties;
+	var pattern;
+	var patternsObj = schema.patternProperties;
+	var additProps = schema.additionalProperties;
 
 	if (typeof additProps !== 'object') {
 		return schema;
@@ -81,8 +82,8 @@ function patternPropertiesHandler(schema) {
 }
 
 function resolveNotSupported(notSupported, toRetain) {
-  var i = 0;
-  var index;
+	var i = 0;
+	var index;
 
 	for (i; i < toRetain.length; i++) {
 		index = notSupported.indexOf(toRetain[i]);

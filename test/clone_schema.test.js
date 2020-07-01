@@ -46,9 +46,12 @@ test('cloning schema with cloneSchema option', function (assert) {
 test('direct schema modification', function (assert) {
   assert.plan(2)
 
+  var a = {}; a.a = a;
+
   var schema = {
     type: 'string',
-    nullable: true
+    nullable: true,
+    a
   }
 
   var result = convert(schema, { cloneSchema: false })

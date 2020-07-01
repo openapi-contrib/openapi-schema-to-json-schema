@@ -43,6 +43,25 @@ test('cloning schema with cloneSchema option', function (assert) {
   assert.notEqual(result, schema, 'schema cloned')
 })
 
+test('handles circular references', function (assert) {
+  assert.plan(1);
+
+  var a = {
+    next: a
+  }
+
+  var schema = {
+    type: 'string',
+    nullable: true,
+    a
+  }
+
+  var result = convert(schema, { cloneSchema: true })
+
+  assert.notEqual(result, schema, 'schema cloned')
+})
+
+
 test('direct schema modification', function (assert) {
   assert.plan(2)
 

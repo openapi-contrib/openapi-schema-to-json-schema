@@ -4,7 +4,8 @@
   "description": "Converts OpenAPI Schema Object to JSON Schema",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/tape test/**/*.test.js | ./node_modules/.bin/tap-spec && npm run lint",
+    "pretest": "npm run lint",
+    "test": "tape test/**/*.test.js | tap-spec",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix"
   },
@@ -12,7 +13,8 @@
   "author": "OpenAPI Contrib",
   "license": "MIT",
   "dependencies": {
-    "deep-equal": "^1.0.1"
+    "clone": "^2.1.2",
+    "deep-equal": "^2.0.3"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

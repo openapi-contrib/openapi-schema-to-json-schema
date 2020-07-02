@@ -1,6 +1,6 @@
 var deepEqual = require('fast-deep-equal');
 var convert = require('./lib/convert');
-var clone = require('clone');
+var clone = require('lodash.clonedeep');
 
 module.exports = openapiSchemaToJsonSchema;
 module.exports.fromSchema = openapiSchemaToJsonSchema;

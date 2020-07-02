@@ -46,9 +46,7 @@ test('cloning schema with cloneSchema option', function (assert) {
 test('handles circular references', function (assert) {
   assert.plan(1);
 
-  var a = {
-    next: a
-  }
+  var a = {}; a.a = a;
 
   var schema = {
     type: 'string',
@@ -67,7 +65,7 @@ test('direct schema modification', function (assert) {
 
   var schema = {
     type: 'string',
-    nullable: true
+    nullable: true,
   }
 
   var result = convert(schema, { cloneSchema: false })

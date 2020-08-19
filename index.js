@@ -1,6 +1,5 @@
 var deepEqual = require('fast-deep-equal');
 var convert = require('./lib/convert');
-var clone = require('lodash.clonedeep');
 
 module.exports = openapiSchemaToJsonSchema;
 module.exports.fromSchema = openapiSchemaToJsonSchema;
@@ -9,20 +8,12 @@ module.exports.fromParameter = openapiParameterToJsonSchema;
 function openapiSchemaToJsonSchema(schema, options) {
 	options = resolveOptions(options);
 
-	if (options.cloneSchema) {
-		schema = clone(schema);
-	}
-
 	var jsonSchema = convert.fromSchema(schema, options);
 	return jsonSchema;
 }
 
 function openapiParameterToJsonSchema(parameter, options) {
 	options = resolveOptions(options);
-
-	if (options.cloneSchema) {
-		parameter = clone(parameter);
-	}
 
 	var jsonSchema = convert.fromParameter(parameter, options);
 	return jsonSchema;

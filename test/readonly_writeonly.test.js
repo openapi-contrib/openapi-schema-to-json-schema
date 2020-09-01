@@ -67,19 +67,28 @@ test('removing readOnly prop even if keeping', function (assert) {
   assert.deepEqual(result, expected, 'readOnly prop removed')
 })
 
-test('removing writeOnly prop', function (assert) {
+test('removing writeOnly prop & required', function (assert) {
   assert.plan(1)
 
   var schema = {
     type: 'object',
+    required: ['prop1', 'prop2', 'prop3', 'prop4'],
     properties: {
       prop1: {
         type: 'string',
         writeOnly: true
       },
       prop2: {
+        type: 'string',
+        writeOnly: true
+      },
+      prop3: {
+        type: 'string',
+        writeOnly: true
+      },
+      prop4: {
         type: 'string'
-      }
+      },
     }
   }
 
@@ -88,14 +97,15 @@ test('removing writeOnly prop', function (assert) {
   var expected = {
     $schema: 'http://json-schema.org/draft-04/schema#',
     type: 'object',
+    required: ['prop4'],
     properties: {
-      prop2: {
+      prop4: {
         type: 'string'
       }
     }
   }
 
-  assert.deepEqual(result, expected, 'writeOnly prop removed')
+  assert.deepEqual(result, expected, 'writeOnly props removed & updated required array')
 })
 
 test('removing readOnly from required', function (assert) {
@@ -103,15 +113,22 @@ test('removing readOnly from required', function (assert) {
 
   var schema = {
     type: 'object',
-    required: ['prop1', 'prop2'],
+    required: ['prop1', 'prop2', 'prop3', 'prop4'],
     properties: {
       prop1: {
+        type: 'string'
+      },
+      prop2: {
         type: 'string',
         readOnly: true
       },
-      prop2: {
+      prop3: {
+        type: 'string',
+        readOnly: true
+      },
+      prop4: {
         type: 'string'
-      }
+      },
     }
   }
 
@@ -120,15 +137,18 @@ test('removing readOnly from required', function (assert) {
   var expected = {
     $schema: 'http://json-schema.org/draft-04/schema#',
     type: 'object',
-    required: ['prop2'],
+    required: ['prop1', 'prop4'],
     properties: {
-      prop2: {
+      prop1: {
         type: 'string'
-      }
+      },
+      prop4: {
+        type: 'string'
+      },
     }
   }
 
-  assert.deepEqual(result, expected, 'readOnly prop removed from required')
+  assert.deepEqual(result, expected, 'readOnly props removed & updated required array')
 })
 
 test('deleting required if empty', function (assert) {

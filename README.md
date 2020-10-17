@@ -123,6 +123,10 @@ If the handler is not provided, the default handler is used. If `additionalPrope
 
 See `test/pattern_properties.test.js` for examples how this works.
 
+#### `convertExamples` (boolean)
+
+If set to `true`, `example` and `examples` from OpenAPI schemas will convert to `examples` defined in JSON Schema Draft 7. This is not enabled by default because `examples` keyword isn't defined in JSON Schema Draft 4. (See [JSON Schema "examples" keyword](https://json-schema.org/draft/2019-09/json-schema-validation.html#rfc.section.9.5) and Swagger's documentation on ["Adding examples"](https://swagger.io/docs/specification/adding-examples/) for more information).
+
 ## Converting OpenAPI parameters
 
 OpenAPI parameters can be converted:

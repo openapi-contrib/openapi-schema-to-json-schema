@@ -123,6 +123,18 @@ If the handler is not provided, the default handler is used. If `additionalPrope
 
 See `test/pattern_properties.test.js` for examples how this works.
 
+#### `beforeTransform` (function)
+
+Provide a custom hook function that will be called for each schema nested in the provided schema before any transformation have happened on the schema. It takes an OpenAPI schema and options (corresponding to json-schema-to-openapi-schema options) as arguments and must return an OpenAPI schema.
+
+See `test/transforms.test.js` for examples.
+
+#### `afterTransform` (function)
+
+Provide a custom hook function that will be called for each schema nested in the provided schema after all transformation have happened on the schema. It takes a JSON schema and options (corresponding to json-schema-to-openapi-schema options) as arguments and must return a JSON schema.
+
+See `test/transforms.test.js` for examples.
+
 ## Converting OpenAPI parameters
 
 OpenAPI parameters can be converted:

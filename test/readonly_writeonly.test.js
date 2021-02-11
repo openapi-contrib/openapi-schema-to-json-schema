@@ -183,6 +183,58 @@ test('deleting required if empty', function (assert) {
   assert.deepEqual(result, expected, 'required removed')
 })
 
+test('not deleting empty required if _keepRequired is set', function (assert) {
+  assert.plan(1)
+
+  var schema = {
+    type: 'object',
+    required: ['prop1'],
+    properties: {}
+  }
+
+  var result = convert(schema, { _keepRequired: true })
+
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    required: ['prop1'],
+  }
+
+  console.log(expected);
+
+  assert.deepEqual(result, expected, 'required preserved')
+})
+
+test('not touching required if _keepRequired is set', function (assert) {
+  assert.plan(1)
+
+  var schema = {
+    type: 'object',
+    required: ['prop1', 'prop2'],
+    properties: {
+      prop1: {
+        type: 'string'
+      }
+    }
+  }
+
+  var result = convert(schema, { _keepRequired: true })
+
+  var expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: 'object',
+    required: ['prop1', 'prop2'],
+    properties: {
+      prop1: {
+        type: 'string'
+      }
+    }
+  }
+
+  assert.deepEqual(result, expected, 'required preserved')
+})
+
+
 test('deleting properties if empty', function (assert) {
   assert.plan(1)
 

@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "Converts OpenAPI Schema Object to JSON Schema",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "pretest": "npm run lint",
     "test": "tape test/**/*.test.js | tap-spec",

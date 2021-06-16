@@ -203,3 +203,7 @@ This package is [Treeware](https://treeware.earth). If you use it in production,
 [Stoplight]: https://stoplight.io/
 [mikunn]: https://github.com/mikunn
 [link-contributors]: https://github.com/openapi-contrib/openapi-schema-to-json-schema/graphs/contributors
+
+## Copyright  
+
+Copyright 2021 the [OpenAPI Contrib organization](https://github.com/openapi-contrib). Code released under the [MIT License](https://github.com/openapi-contrib/openapi-schema-to-json-schema/blob/master/LICENSE).

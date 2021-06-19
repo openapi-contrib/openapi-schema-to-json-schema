@@ -25,7 +25,7 @@ If you need to do the conversion in reverse, checkout [json-schema-to-openapi-sc
 * removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
 * optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
-**NOTE**: `$ref`s are not handled in any way, so please use a resolver such as [json-ref-resolver](https://github.com/stoplightio/json-ref-resolver) prior to using this package.
+**NOTE**: `$ref`s are not handled in any way, so please use a resolver such as [json-ref-resolver](https://github.com/stoplightio/json-ref-resolver) prior to using this package. If using a ref resolver isn't suitable for your usecase, you may find the `definitionKeywords` option useful to transform your definitions.
 
 ## Installation
 
@@ -123,6 +123,50 @@ If the handler is not provided, the default handler is used. If `additionalPrope
 
 See `test/pattern_properties.test.js` for examples how this works.
 
+#### `definitionKeywords` (array)
+
+By default, definitions are not converted. If your documents follow the convention of having a definitions object at the root of a (sub)schema, you can set definitionKeywords to `['definitions']`.
+
+```js
+var schema = {
+  definitions: {
+    sharedDefinition: {
+      type: 'object',
+      properties: {
+        foo: {
+          type: 'string',
+          nullable: true
+        }
+      }
+    }
+  }
+};
+
+var convertedSchema = toJsonSchema(schema, {
+  definitionKeywords: ['definitions']
+});
+
+console.log(convertedSchema);
+```
+
+prints
+
+```js
+{
+  $schema: 'http://json-schema.org/draft-04/schema#',
+  definitions: {
+    sharedDefinition: {
+      type: 'object',
+      properties: {
+        foo: {
+          type: ['string', 'null']
+        }
+      }
+    }
+  }
+}
+```
+
 ## Converting OpenAPI parameters
 
 OpenAPI parameters can be converted:
@@ -137,7 +181,7 @@ var param = {
     type: 'string',
     format: 'date'
   }
-}
+};
 
 var convertedSchema = toJsonSchema(param);
 

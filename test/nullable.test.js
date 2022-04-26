@@ -38,7 +38,7 @@ test('handles nullable without enum', function (assert) {
 test('handles nullable with enum', function (assert) {
   var schema, result, expected;
 
-  assert.plan(2)
+  assert.plan(3)
 
   schema = {
     type: 'string',
@@ -55,6 +55,22 @@ test('handles nullable with enum', function (assert) {
   }
 
   assert.deepEqual(result, expected, 'nullable converted')
+
+  schema = {
+    type: 'string',
+    enum: ['a', 'b', null],
+    nullable: true
+  }
+
+  result = convert(schema)
+
+  expected = {
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    type: ['string', 'null'],
+    enum: ['a', 'b', null]
+  }
+
+  assert.deepEqual(result, expected, 'nullable converted, no duplicate')
 
   schema = {
     type: 'string',

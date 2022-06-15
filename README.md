@@ -2,7 +2,7 @@
 
 A little NodeJS package to convert OpenAPI Schema Object or Parameter Object to JSON Schema.
 
-Currently converts from [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) to [JSON Schema Draft 4](http://json-schema.org/specification-links.html#draft-4).
+Currently converts from [OpenAPI 3.0](https://spec.openapis.org/oas/v3.0.3.html) to [JSON Schema Draft 4](http://json-schema.org/specification-links.html#draft-4).
 
 [![Treeware](https://img.shields.io/badge/dynamic/json?color=brightgreen&label=Treeware&query=%24.total&url=https%3A%2F%2Fpublic.offset.earth%2Fusers%2Ftreeware%2Ftrees)](https://treeware.earth)
 
@@ -22,10 +22,10 @@ If you need to do the conversion in reverse, checkout [json-schema-to-openapi-sc
 * converts OpenAPI v3.0 Parameter Object to JSON Schema Draft 4
 * deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
 * supports deep structures with nested `allOf`s etc.
-* removes [OpenAPI specific properties](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
+* removes [OpenAPI specific properties](https://spec.openapis.org/oas/v3.0.3.html#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
 * optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
-**NOTE**: `$ref`s are not handled in any way, so please use a resolver such as [json-ref-resolver](https://github.com/stoplightio/json-ref-resolver) prior to using this package.
+**NOTE**: `$ref`s are not handled in any way, so please use a resolver such as [json-schema-ref-parser](https://github.com/APIDevTools/json-schema-ref-parser) or [swagger-cli bundle](https://www.npmjs.com/package/swagger-cli) prior to using this package.
 
 ## Installation
 
@@ -206,4 +206,4 @@ This package is [Treeware](https://treeware.earth). If you use it in production,
 
 ## Copyright  
 
-Copyright 2021 the [OpenAPI Contrib organization](https://github.com/openapi-contrib). Code released under the [MIT License](https://github.com/openapi-contrib/openapi-schema-to-json-schema/blob/master/LICENSE).
+Copyright 2021 the [OpenAPI Contrib organization](https://github.com/openapi-contrib). Code released under the [MIT License](https://github.com/openapi-contrib/openapi-schema-to-json-schema/blob/main/LICENSE).

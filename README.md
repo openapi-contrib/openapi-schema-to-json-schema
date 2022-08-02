@@ -18,12 +18,12 @@ If you need to do the conversion in reverse, checkout [json-schema-to-openapi-sc
 
 ## Features
 
-* converts OpenAPI v3.0 Schema Object to JSON Schema Draft 4
-* converts OpenAPI v3.0 Parameter Object to JSON Schema Draft 4
-* deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
-* supports deep structures with nested `allOf`s etc.
-* removes [OpenAPI specific properties](https://spec.openapis.org/oas/v3.0.3.html#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
-* optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
+- converts OpenAPI v3.0 Schema Object to JSON Schema Draft 4
+- converts OpenAPI v3.0 Parameter Object to JSON Schema Draft 4
+- deletes `nullable` and adds `"null"` to `type` array if `nullable` is `true`
+- supports deep structures with nested `allOf`s etc.
+- removes [OpenAPI specific properties](https://spec.openapis.org/oas/v3.0.3.html#fixed-fields-20) such as `discriminator`, `deprecated` etc. unless specified otherwise
+- optionally supports `patternProperties` with `x-patternProperties` in the Schema Object
 
 **NOTE**: `$ref`s are not handled in any way, so please use a resolver such as [json-schema-ref-parser](https://github.com/APIDevTools/json-schema-ref-parser) or [swagger-cli bundle](https://www.npmjs.com/package/swagger-cli) prior to using this package.
 
@@ -38,13 +38,12 @@ npm install --save @openapi-contrib/openapi-schema-to-json-schema
 Here's a small example to get the idea:
 
 ```js
-
-var toJsonSchema = require('@openapi-contrib/openapi-schema-to-json-schema');
+var toJsonSchema = require("@openapi-contrib/openapi-schema-to-json-schema");
 
 var schema = {
-  type: 'string',
-  format: 'date-time',
-  nullable: true
+  type: "string",
+  format: "date-time",
+  nullable: true,
 };
 
 var convertedSchema = toJsonSchema(schema);
@@ -80,8 +79,8 @@ For example
 
 ```js
 var schema = {
-  type: 'string',
-  format: 'date'
+  type: "string",
+  format: "date",
 };
 
 var convertedSchema = toJsonSchema(schema, { dateToDateTime: true });
@@ -128,16 +127,16 @@ See `test/pattern_properties.test.js` for examples how this works.
 OpenAPI parameters can be converted:
 
 ```js
-var toJsonSchema = require('@openapi-contrib/openapi-schema-to-json-schema').fromParameter;
+var toJsonSchema = require("@openapi-contrib/openapi-schema-to-json-schema").fromParameter;
 
 var param = {
-  name: 'parameter name',
-  in: 'query',
+  name: "parameter name",
+  in: "query",
   schema: {
-    type: 'string',
-    format: 'date'
-  }
-}
+    type: "string",
+    format: "date",
+  },
+};
 
 var convertedSchema = toJsonSchema(param);
 
@@ -200,10 +199,10 @@ This package is [Treeware](https://treeware.earth). If you use it in production,
 - [mikunn][] for originally creating this package.
 - [All Contributors][link-contributors]
 
-[Stoplight]: https://stoplight.io/
+[stoplight]: https://stoplight.io/
 [mikunn]: https://github.com/mikunn
 [link-contributors]: https://github.com/openapi-contrib/openapi-schema-to-json-schema/graphs/contributors
 
-## Copyright  
+## Copyright
 
 Copyright 2021 the [OpenAPI Contrib organization](https://github.com/openapi-contrib). Code released under the [MIT License](https://github.com/openapi-contrib/openapi-schema-to-json-schema/blob/main/LICENSE).

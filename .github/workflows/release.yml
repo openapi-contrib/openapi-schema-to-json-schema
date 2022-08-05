@@ -14,9 +14,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn test
       - run: npx semantic-release --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

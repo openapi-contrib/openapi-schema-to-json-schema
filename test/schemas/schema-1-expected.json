@@ -1,7 +1,7 @@
 {
-	"allOf": [
+  "allOf": [
     {
-			"anyOf": [
+      "anyOf": [
         {
           "type": "object",
           "properties": {
@@ -38,10 +38,7 @@
                         "type": "string"
                       },
                       "sms": {
-                        "type": [
-                          "string",
-                          "null"
-                        ]
+                        "type": ["string", "null"]
                       },
                       "properties": {
                         "type": "object",
@@ -52,9 +49,7 @@
                     }
                   },
                   {
-                    "required": [
-                      "email"
-                    ]
+                    "required": ["email"]
                   }
                 ]
               }
@@ -68,20 +63,14 @@
       "properties": {
         "playground": {
           "type": "object",
-          "required": [
-            "feeling",
-            "child"
-          ],
+          "required": ["feeling", "child"],
           "properties": {
             "feeling": {
               "type": "string"
             },
             "child": {
               "type": "object",
-              "required": [
-                "name",
-                "age"
-              ],
+              "required": ["name", "age"],
               "properties": {
                 "name": {
                   "type": "string"
@@ -104,7 +93,7 @@
                 },
                 "type": {
                   "type": "string",
-									"enum": ["bucket", "shovel"],
+                  "enum": ["bucket", "shovel"],
                   "description": "Toy type"
                 }
               }

@@ -1,12 +1,11 @@
 import { isObject } from "../utils/isObject";
 import InvalidTypeError from "../errors/invalid-type-error";
-import type { OptionsInternal } from "../../types";
+import type { OptionsInternal } from "../../openapi-schema-types";
 import { cloneDeep } from "lodash-es";
-import type { STRUCTS } from "../../consts";
 import type { JSONSchema4, JSONSchema4TypeName } from "json-schema";
 import { VALID_OPENAPI_FORMATS } from "../../consts";
 import type { SchemaObject } from "openapi-typescript/src/types";
-import type { PatternPropertiesHandler } from "../../types";
+import type { PatternPropertiesHandler } from "../../openapi-schema-types";
 import type { OpenAPI3 } from "openapi-typescript";
 import type { ReferenceObject } from "openapi-typescript/src/types";
 
@@ -25,17 +24,19 @@ function convertSchema(schema: OpenAPI3 | SchemaObject | ReferenceObject, option
   const structs = options._structs;
   const notSupported = options._notSupported;
   const strictMode = options.strictMode;
-  let i = 0;
-  let j = 0;
-  let struct: typeof STRUCTS[number] | null = null;
+  const definitionKeywords = options.definitionKeywords || [];
+  const beforeTransform = options.beforeTransform;
+  const afterTransform = options.afterTransform;
 
-  for (i; i < structs.length; i++) {
-    struct = structs[i];
+  if (beforeTransform) {
+    schema = beforeTransform(schema, options);
+  }
 
+  for (const struct of structs) {
     if (Array.isArray(schema[struct])) {
       let cloned = false;
 
-      for (j; j < schema[struct].length; j++) {
+      for (let j = 0; j < schema[struct].length; j++) {
         if (!isObject(schema[struct][j])) {
           if (options.cloneSchema && !cloned) {
             cloned = true;
@@ -57,12 +58,18 @@ function convertSchema(schema: OpenAPI3 | SchemaObject | ReferenceObject, option
   }
   let convertedSchema = schema as SchemaObject;
 
+  for (const def of definitionKeywords) {
+    if (typeof schema[def] === "object") {
+      schema[def] = convertProperties(schema[def], options);
+    }
+  }
+
   if ("properties" in convertedSchema) {
     convertedSchema.properties = convertProperties(convertedSchema.properties, options);
 
     if (Array.isArray(convertedSchema.required)) {
       convertedSchema.required = convertedSchema.required.filter(
-        (key) => convertedSchema.properties?.[key] !== undefined,
+        (key) => "properties" in convertedSchema && convertedSchema.properties?.[key] !== undefined,
       );
       if (convertedSchema.required.length === 0) {
         delete convertedSchema.required;
@@ -73,7 +80,7 @@ function convertSchema(schema: OpenAPI3 | SchemaObject | ReferenceObject, option
     }
   }
 
-  if (strictMode) {
+  if (strictMode && "type" in convertedSchema) {
     validateType(convertedSchema.type);
   }
 
@@ -84,8 +91,12 @@ function convertSchema(schema: OpenAPI3 | SchemaObject | ReferenceObject, option
     convertedSchema = convertPatternProperties(convertedSchema, options.patternPropertiesHandler);
   }
 
-  for (i = 0; i < notSupported.length; i++) {
-    delete convertedSchema[notSupported[i]];
+  for (const item of notSupported) {
+    delete convertedSchema[item];
+  }
+
+  if (afterTransform) {
+    return afterTransform(convertedSchema, options);
   }
 
   return convertedSchema as JSONSchema4;
@@ -130,13 +141,15 @@ function convertProperties(
 }
 
 function convertTypes(schema: SchemaObject) {
-  const type = schema.type as JSONSchema4TypeName;
-  const schemaEnum = schema.enum as unknown[];
-  if (type !== undefined && schema.nullable === true) {
-    (<JSONSchema4>schema).type = [type, "null"];
-
-    if (Array.isArray(schemaEnum) && !schemaEnum.includes(null)) {
-      schema.enum = schemaEnum.concat([null]);
+  if ("type" in schema) {
+    const type = schema.type as JSONSchema4TypeName;
+    const schemaEnum = schema.enum as (string | null)[];
+    if (type !== undefined && schema.nullable === true) {
+      (<JSONSchema4>schema).type = [type, "null"];
+      if (Array.isArray(schemaEnum) && !schemaEnum.includes(null)) {
+        // @ts-ignore
+        schema.enum = schemaEnum.concat([null]);
+      }
     }
   }
 

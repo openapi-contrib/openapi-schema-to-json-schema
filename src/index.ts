@@ -1,6 +1,6 @@
 import deepEqual from "fast-deep-equal";
 import { fromSchema, fromParameter } from "./lib/convert";
-import type { Options, OptionsInternal, OpenAPI3 } from "./types";
+import type { Options, OptionsInternal, OpenAPI3 } from "./openapi-schema-types";
 import { NOT_SUPPORTED, STRUCTS } from "./consts";
 import { cloneDeep } from "lodash-es";
 import type { JSONSchema4 } from "json-schema";
@@ -31,6 +31,7 @@ const resolveOptions = (_options?: Options): OptionsInternal => {
   options.cloneSchema ??= true;
   options.supportPatternProperties = Boolean(options.supportPatternProperties);
   options.keepNotSupported ??= [];
+  options.definitionKeywords ??= [];
   options.strictMode ??= true;
 
   if (typeof options.patternPropertiesHandler !== "function") {

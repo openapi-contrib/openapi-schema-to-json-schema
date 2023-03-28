@@ -122,6 +122,48 @@ If the handler is not provided, the default handler is used. If `additionalPrope
 
 See `test/pattern_properties.test.js` for examples how this works.
 
+#### `definitionKeywords` (array)
+
+By default, definitions are not converted. If your documents follow the convention of having a definitions object at the root of a (sub)schema, you can set definitionKeywords to `['definitions']`.
+
+```js
+var schema = {
+  definitions: {
+    sharedDefinition: {
+      type: "object",
+      properties: {
+        foo: {
+          type: "string",
+          nullable: true,
+        },
+      },
+    },
+  },
+};
+var convertedSchema = toJsonSchema(schema, {
+  definitionKeywords: ["definitions"],
+});
+console.log(convertedSchema);
+```
+
+prints
+
+```js
+{
+  $schema: 'http://json-schema.org/draft-04/schema#',
+  definitions: {
+    sharedDefinition: {
+      type: 'object',
+      properties: {
+        foo: {
+          type: ['string', 'null']
+        }
+      }
+    }
+  }
+}
+```
+
 ## Converting OpenAPI parameters
 
 OpenAPI parameters can be converted:

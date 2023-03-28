@@ -1,6 +1,6 @@
 import convertFromSchema from "./schema";
 import InvalidInputError from "../errors/invalid-input-error";
-import type { OptionsInternal } from "../../types";
+import type { OptionsInternal } from "../../openapi-schema-types";
 import type { ParameterObject } from "openapi-typescript/src/types";
 import type { ResponseObject } from "openapi-typescript/src/types";
 import type { JSONSchema4 } from "json-schema";
@@ -25,12 +25,16 @@ const convertFromContents = (parameter: ResponseObject, options: OptionsInternal
   return schemas;
 };
 
+const isResponseObject = (parameter: ParameterObject | ResponseObject): parameter is ResponseObject => {
+  return Boolean(parameter) && "content" in parameter && Boolean(parameter.content);
+};
+
 // Convert from OpenAPI 3.0 `ParameterObject` to JSON schema v4
 const convertFromParameter = (parameter: ParameterObject | ResponseObject, options: OptionsInternal): JSONSchema4 => {
   if ("schema" in parameter && parameter.schema) {
     return convertParameterSchema(parameter, parameter.schema, options);
   }
-  if ("content" in parameter && parameter.content) {
+  if (isResponseObject(parameter)) {
     return convertFromContents(parameter, options);
   }
   if (options.strictMode) {

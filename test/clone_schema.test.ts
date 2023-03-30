@@ -71,7 +71,6 @@ it("handles circular references", async ({ expect }) => {
   };
 
   const result = convert(schema, { cloneSchema: true });
-
   expect(result).not.toEqual(schema);
 });
 

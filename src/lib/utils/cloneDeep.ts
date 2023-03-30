@@ -7,7 +7,7 @@ const isObject = (val) => {
   return {}.toString.call(val) === "[object Object]" && !isArray(val);
 };
 
-export const cloneDeep = (val, history = null) => {
+export const cloneDeep = (val, history = new Set()) => {
   const stack = history || new Set();
 
   if (stack.has(val)) {

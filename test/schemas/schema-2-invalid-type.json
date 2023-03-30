@@ -1,5 +1,5 @@
 {
-  "allOf": [
+	"allOf": [
     {
       "anyOf": [
         {
@@ -9,7 +9,9 @@
               "type": "array",
               "items": {
                 "type": "integer",
-                "example": [1]
+                "example": [
+                  1
+                ]
               }
             }
           }
@@ -21,7 +23,9 @@
               "type": "array",
               "items": {
                 "type": "integer",
-                "example": [1]
+                "example": [
+                  1
+                ]
               }
             }
           }
@@ -57,7 +61,9 @@
                     }
                   },
                   {
-                    "required": ["email"]
+                    "required": [
+                      "email"
+                    ]
                   }
                 ]
               }
@@ -71,7 +77,10 @@
       "properties": {
         "playground": {
           "type": "object",
-          "required": ["feeling", "child"],
+          "required": [
+            "feeling",
+            "child"
+          ],
           "properties": {
             "feeling": {
               "type": "string",
@@ -79,7 +88,10 @@
             },
             "child": {
               "type": "object",
-              "required": ["name", "age"],
+              "required": [
+                "name",
+                "age"
+              ],
               "properties": {
                 "name": {
                   "type": "string",
@@ -104,7 +116,7 @@
                 },
                 "type": {
                   "type": "string",
-                  "enum": ["bucket", "shovel"],
+									"enum": ["bucket", "shovel"],
                   "description": "Toy type"
                 }
               }

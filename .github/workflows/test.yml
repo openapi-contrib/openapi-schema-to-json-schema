@@ -8,18 +8,19 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 18
+          - 12
+          - 14
+          - 16
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: yarn install, build, and test
-        run: |
-          yarn --frozen-lockfile
-          yarn build --if-present
-          yarn lint
-          yarn test
-        env:
-          CI: true
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and test
+      run: |
+        npm ci
+        npm run build --if-present
+        npm test
+      env:
+        CI: true

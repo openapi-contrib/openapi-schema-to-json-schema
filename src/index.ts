@@ -2,9 +2,9 @@ import deepEqual from "fast-deep-equal";
 import { fromSchema, fromParameter } from "./lib/convert";
 import type { Options, OptionsInternal, OpenAPI3 } from "./openapi-schema-types";
 import { NOT_SUPPORTED, STRUCTS } from "./consts";
-import { cloneDeep } from "lodash-es";
 import type { JSONSchema4 } from "json-schema";
 import type { ParameterObject, ResponseObject } from "openapi-typescript/src/types";
+import { cloneDeep } from "./lib/utils/cloneDeep";
 const patternPropertiesHandler = (schema) => {
   let pattern;
   const patternsObj = schema.patternProperties;

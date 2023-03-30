@@ -1,13 +1,13 @@
 import { isObject } from "../utils/isObject";
 import InvalidTypeError from "../errors/invalid-type-error";
 import type { OptionsInternal } from "../../openapi-schema-types";
-import { cloneDeep } from "lodash-es";
 import type { JSONSchema4, JSONSchema4TypeName } from "json-schema";
 import { VALID_OPENAPI_FORMATS } from "../../consts";
 import type { SchemaObject } from "openapi-typescript/src/types";
 import type { PatternPropertiesHandler } from "../../openapi-schema-types";
 import type { OpenAPI3 } from "openapi-typescript";
 import type { ReferenceObject } from "openapi-typescript/src/types";
+import { cloneDeep } from "../utils/cloneDeep";
 
 // Convert from OpenAPI 3.0 `SchemaObject` to JSON schema v4
 function convertFromSchema<T extends OpenAPI3 = OpenAPI3>(schema: T, options: OptionsInternal): JSONSchema4 {

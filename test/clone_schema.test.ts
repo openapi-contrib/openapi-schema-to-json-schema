@@ -61,6 +61,7 @@ it("cloning schema with cloneSchema option", async ({ expect }) => {
 
 it("handles circular references", async ({ expect }) => {
   const a: Record<string, object> = {};
+
   a.a = a;
 
   const schema = {

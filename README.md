@@ -38,7 +38,7 @@ npm install --save @openapi-contrib/openapi-schema-to-json-schema
 Here's a small example to get the idea:
 
 ```js
-var toJsonSchema = require("@openapi-contrib/openapi-schema-to-json-schema");
+var { openapiSchemaToJsonSchema: toJsonSchema } = require("@openapi-contrib/openapi-schema-to-json-schema");
 
 var schema = {
   type: "string",
@@ -169,7 +169,7 @@ prints
 OpenAPI parameters can be converted:
 
 ```js
-var toJsonSchema = require("@openapi-contrib/openapi-schema-to-json-schema").fromParameter;
+var { fromParameter } = require("@openapi-contrib/openapi-schema-to-json-schema");
 
 var param = {
   name: "parameter name",
@@ -180,7 +180,7 @@ var param = {
   },
 };
 
-var convertedSchema = toJsonSchema(param);
+var convertedSchema = fromParameter(param);
 
 console.log(convertedSchema);
 ```
@@ -247,4 +247,4 @@ This package is [Treeware](https://treeware.earth). If you use it in production,
 
 ## Copyright
 
-Copyright 2021 the [OpenAPI Contrib organization](https://github.com/openapi-contrib). Code released under the [MIT License](https://github.com/openapi-contrib/openapi-schema-to-json-schema/blob/main/LICENSE).
+Copyright 2023 the [OpenAPI Contrib organization](https://github.com/openapi-contrib). Code released under the [MIT License](https://github.com/openapi-contrib/openapi-schema-to-json-schema/blob/main/LICENSE).

@@ -8,9 +8,13 @@ import type { PatternPropertiesHandler } from "../../openapi-schema-types";
 import type { OpenAPI3 } from "openapi-typescript";
 import type { ReferenceObject } from "openapi-typescript/src/types";
 import { cloneDeep } from "../utils/cloneDeep";
+import type { AcceptibleInputSchema } from "../../openapi-schema-types";
 
 // Convert from OpenAPI 3.0 `SchemaObject` to JSON schema v4
-function convertFromSchema<T extends OpenAPI3 = OpenAPI3>(schema: T, options: OptionsInternal): JSONSchema4 {
+function convertFromSchema<T extends AcceptibleInputSchema = AcceptibleInputSchema>(
+  schema: T,
+  options: OptionsInternal,
+): JSONSchema4 {
   const newSchema = convertSchema(schema, options);
   (<JSONSchema4>newSchema).$schema = "http://json-schema.org/draft-04/schema#";
   return newSchema;

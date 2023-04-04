@@ -6,6 +6,7 @@ import type { JSONSchema4 } from "json-schema";
 export type { OpenAPI3 };
 // We don't know what the shape of the object looks like when it's passed in, but we know its some mix of these two
 export type PatternPropertiesHandler = (schema: SchemaObject) => SchemaObject;
+export type AcceptibleInputSchema = SchemaObject | OpenAPI3 | Record<string, any>;
 
 export interface Options {
   dateToDateTime?: boolean;

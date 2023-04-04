@@ -3,8 +3,9 @@ import { fromSchema, fromParameter } from "./lib/convert";
 import type { Options, OptionsInternal, OpenAPI3 } from "./openapi-schema-types";
 import { NOT_SUPPORTED, STRUCTS } from "./consts";
 import type { JSONSchema4 } from "json-schema";
-import type { ParameterObject, ResponseObject } from "openapi-typescript/src/types";
+import type { ParameterObject, ResponseObject, SchemaObject } from "openapi-typescript/src/types";
 import { cloneDeep } from "./lib/utils/cloneDeep";
+import type { AcceptibleInputSchema } from "./openapi-schema-types";
 const patternPropertiesHandler = (schema) => {
   let pattern;
   const patternsObj = schema.patternProperties;
@@ -56,7 +57,10 @@ const resolveOptions = (_options?: Options): OptionsInternal => {
   return options;
 };
 
-const openapiSchemaToJsonSchema = <T extends OpenAPI3 = OpenAPI3>(schema: T, options?: Options): JSONSchema4 => {
+const openapiSchemaToJsonSchema = <T extends AcceptibleInputSchema = AcceptibleInputSchema>(
+  schema: T,
+  options?: Options,
+): JSONSchema4 => {
   const optionsInternal = resolveOptions(options);
   return fromSchema<T>(schema, optionsInternal);
 };

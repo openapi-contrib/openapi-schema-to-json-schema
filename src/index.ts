@@ -1,11 +1,12 @@
 import deepEqual from "fast-deep-equal";
 import { fromSchema, fromParameter } from "./lib/convert";
-import type { Options, OptionsInternal, OpenAPI3 } from "./openapi-schema-types";
+import type { Options, OptionsInternal } from "./openapi-schema-types";
 import { NOT_SUPPORTED, STRUCTS } from "./consts";
 import type { JSONSchema4 } from "json-schema";
-import type { ParameterObject, ResponseObject, SchemaObject } from "openapi-typescript/src/types";
+import type { ParameterObject, ResponseObject } from "openapi-typescript/src/types";
 import { cloneDeep } from "./lib/utils/cloneDeep";
 import type { AcceptibleInputSchema } from "./openapi-schema-types";
+
 const patternPropertiesHandler = (schema) => {
   let pattern;
   const patternsObj = schema.patternProperties;

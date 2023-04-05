@@ -3356,7 +3356,7 @@ onetime@^6.0.0:
   dependencies:
     mimic-fn "^4.0.0"
 
-openapi-typescript@^5.4.1y:
+openapi-typescript@^5.4.1:
   version "5.4.1"
   resolved "https://registry.npmjs.org/openapi-typescript/-/openapi-typescript-5.4.1.tgz#38b4b45244acc1361f3c444537833a9e9cb03bf6"
   integrity sha512-AGB2QiZPz4rE7zIwV3dRHtoUC/CWHhUjuzGXvtmMQN2AFV8xCTLKcZUHLcdPQmt/83i22nRE7+TxXOXkK+gf4Q==

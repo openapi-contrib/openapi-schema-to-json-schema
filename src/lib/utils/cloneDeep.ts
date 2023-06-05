@@ -1,4 +1,4 @@
-// Fromhttps://dev.to/salyadav/deep-clone-of-js-objects-with-circular-dependency-4if7
+// From https://dev.to/salyadav/deep-clone-of-js-objects-with-circular-dependency-4if7
 const isArray = (val) => {
   return Array.isArray(val);
 };
@@ -17,7 +17,7 @@ export const cloneDeep = (val, history = new Set()) => {
   stack.add(val);
 
   const copyObject = (o) => {
-    const oo = Object.create({});
+    const oo = {};
     for (const k in o) {
       oo[k] = cloneDeep(o[k], stack);
     }

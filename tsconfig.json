@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "outDir": "dist/mjs",
+    "module": "CommonJS",
+    "outDir": "dist",
     "target": "es2020",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -9,7 +9,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "inlineSourceMap": false,
-    "lib": ["esnext"],
+    "lib": ["ES2020"],
     "listEmittedFiles": false,
     "listFiles": false,
     "moduleResolution": "node",
@@ -17,10 +17,9 @@
     "pretty": true,
     "resolveJsonModule": true,
     "rootDir": "src",
-    "skipLibCheck": true,
-    "noImplicitAny": false,
     "strict": true,
     "noUnusedParameters": true,
+    "noImplicitAny": false,
     "sourceMap": true
   },
   "compileOnSave": false,

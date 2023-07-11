@@ -1,13 +1,13 @@
 // From https://dev.to/salyadav/deep-clone-of-js-objects-with-circular-dependency-4if7
-const isArray = (val) => {
+const isArray = (val: unknown) => {
   return Array.isArray(val);
 };
 
-const isObject = (val) => {
+const isObject = (val: unknown) => {
   return {}.toString.call(val) === "[object Object]" && !isArray(val);
 };
 
-export const cloneDeep = (val, history = new Set()) => {
+export const cloneDeep = (val: unknown, history = new Set()) => {
   const stack = history || new Set();
 
   if (stack.has(val)) {

@@ -4,7 +4,7 @@ import type { Options, OptionsInternal } from "./openapi-schema-types";
 import { NOT_SUPPORTED, STRUCTS } from "./consts";
 import type { JSONSchema4 } from "json-schema";
 import type { ParameterObject, ResponseObject } from "openapi-typescript/src/types";
-import { cloneDeep } from "./lib/utils/cloneDeep";
+import cloneDeep from "lodash/cloneDeep";
 import type { AcceptibleInputSchema } from "./openapi-schema-types";
 
 const patternPropertiesHandler = (schema) => {

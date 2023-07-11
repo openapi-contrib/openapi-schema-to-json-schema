@@ -1,8 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2015",
-    "lib": ["es2015", "dom"],
+    "target": "ESNext",
+    "lib": ["ESNext", "dom"],
     "types": ["vitest/globals"]
   },
   "include": ["."]

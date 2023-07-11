@@ -36,7 +36,7 @@ npm install --save @openapi-contrib/openapi-schema-to-json-schema
 ### CLI
 
 ```bash
-npx openapi-schema-to-json-schema --input openapi.json --output json-schema.json
+npx "@openapi-contrib/openapi-schema-to-json-schema" --input openapi.json --output json-schema.json
 ```
 
 ## Converting OpenAPI schema

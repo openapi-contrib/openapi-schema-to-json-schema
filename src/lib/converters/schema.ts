@@ -7,9 +7,10 @@ import type { SchemaObject } from "openapi-typescript/src/types";
 import type { PatternPropertiesHandler } from "../../openapi-schema-types";
 import type { OpenAPI3 } from "openapi-typescript";
 import type { ReferenceObject } from "openapi-typescript/src/types";
-import { cloneDeep } from "../utils/cloneDeep";
 import type { AcceptibleInputSchema } from "../../openapi-schema-types";
-
+import cloneDeep from "lodash/cloneDeep";
+import get from "lodash/get";
+import set from "lodash/set";
 // Convert from OpenAPI 3.0 `SchemaObject` to JSON schema v4
 function convertFromSchema<T extends AcceptibleInputSchema = AcceptibleInputSchema>(
   schema: T,
@@ -63,8 +64,10 @@ function convertSchema(schema: OpenAPI3 | SchemaObject | ReferenceObject, option
   let convertedSchema = schema as SchemaObject;
 
   for (const def of definitionKeywords) {
-    if (typeof schema[def] === "object") {
-      schema[def] = convertProperties(schema[def], options);
+    const innerDef = get(schema, def);
+    if (typeof innerDef === "object") {
+      const convertedInnerDef = convertProperties(innerDef, options);
+      set(schema, def, convertedInnerDef);
     }
   }
 

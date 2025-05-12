@@ -23,12 +23,12 @@
   "license": "MIT",
   "bin": "dist/bin.js",
   "dependencies": {
-    "@types/json-schema": "^7.0.12",
-    "@types/lodash": "^4.14.195",
-    "@types/node": "^20.4.1",
+    "@types/json-schema": "^7.0.15",
+    "@types/lodash": "^4.17.16",
+    "@types/node": "^20.17.46",
     "fast-deep-equal": "^3.1.3",
     "lodash": "^4.17.21",
-    "openapi-typescript": "^5.4.1",
+    "openapi-typescript": "^7.8.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

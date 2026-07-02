@@ -35,6 +35,63 @@ it("properties", async ({ expect }) => {
   expect(result).toEqual(expected);
 });
 
+it("converts the Xquik search response schema", async ({ expect }) => {
+  const schema = {
+    type: "object",
+    required: ["data"],
+    properties: {
+      data: {
+        type: "array",
+        items: {
+          type: "object",
+          required: ["id", "text", "authorUsername"],
+          properties: {
+            id: {
+              type: "string",
+            },
+            text: {
+              type: "string",
+            },
+            authorUsername: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const result = convert(schema);
+
+  const expected = {
+    $schema: "http://json-schema.org/draft-04/schema#",
+    type: "object",
+    required: ["data"],
+    properties: {
+      data: {
+        type: "array",
+        items: {
+          type: "object",
+          required: ["id", "text", "authorUsername"],
+          properties: {
+            id: {
+              type: "string",
+            },
+            text: {
+              type: "string",
+            },
+            authorUsername: {
+              type: "string",
+            },
+          },
+        },
+      },
+    },
+  };
+
+  expect(result).toEqual(expected);
+});
+
 it("properties value is null", async ({ expect }) => {
   const schema = {
     type: "object",

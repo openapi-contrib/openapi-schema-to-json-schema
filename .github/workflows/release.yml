@@ -5,21 +5,27 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: "26.12.1"
-      - name: Install Yarn
-        run: npm install --global yarn@1.22.22
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - run: npm install --global npm@^11.15.0 yarn@1.22.22
       - run: yarn install --frozen-lockfile
       - run: yarn build
       - run: yarn test
-      - run: npx semantic-release --branches main
+      - run: npx --yes semantic-release@25 --branches main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
